@@ -53,6 +53,7 @@ const server = http.createServer(async (req, res) => {
 
         let flattened;
 
+        // companyCode 쿼리 처리
         if (!companyCode.length) {
           flattened = allData
             .filter((data) => companyCode.includes(data[0].companyCode))
