@@ -1,0 +1,38 @@
+[
+  {
+    "id": 130,
+    "companyName": "SC제일은행",
+    "companyCode": "SC",
+    "interestRate": "1.90",
+    "primeInterestRate": "2.45",
+    "depositAmount": 100000000,
+    "name": "직장인을 위한 월급 저축"
+  },
+  {
+    "id": 131,
+    "companyName": "SC제일은행",
+    "companyCode": "SC",
+    "interestRate": "3.45",
+    "primeInterestRate": "4.05",
+    "depositAmount": 1000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 132,
+    "companyName": "SC제일은행",
+    "companyCode": "SC",
+    "interestRate": "2.85",
+    "primeInterestRate": "3.50",
+    "depositAmount": 10000000,
+    "name": "청년 전용 고금리 적금"
+  },
+  {
+    "id": 133,
+    "companyName": "SC제일은행",
+    "companyCode": "SC",
+    "interestRate": "1.75",
+    "primeInterestRate": "2.20",
+    "depositAmount": 1000000000,
+    "name": "군인도 가능한 군적금"
+  }
+]

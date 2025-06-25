@@ -1,0 +1,38 @@
+[
+  {
+    "id": 118,
+    "companyName": "카카오뱅크",
+    "companyCode": "KK",
+    "interestRate": "3.01",
+    "primeInterestRate": "3.78",
+    "depositAmount": 10000000,
+    "name": "AI가 골라주는 맞춤형 금리"
+  },
+  {
+    "id": 119,
+    "companyName": "카카오뱅크",
+    "companyCode": "KK",
+    "interestRate": "1.90",
+    "primeInterestRate": "2.45",
+    "depositAmount": 100000000,
+    "name": "조건 없는 자유적금"
+  },
+  {
+    "id": 120,
+    "companyName": "카카오뱅크",
+    "companyCode": "KK",
+    "interestRate": "4.25",
+    "primeInterestRate": "4.88",
+    "depositAmount": 1000000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 121,
+    "companyName": "카카오뱅크",
+    "companyCode": "KK",
+    "interestRate": "2.15",
+    "primeInterestRate": "2.75",
+    "depositAmount": 1000000,
+    "name": "모바일로 1분 가입, 혜택은 평생"
+  }
+]

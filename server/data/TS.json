@@ -1,0 +1,38 @@
+[
+  {
+    "id": 126,
+    "companyName": "토스뱅크",
+    "companyCode": "TS",
+    "interestRate": "3.22",
+    "primeInterestRate": "3.92",
+    "depositAmount": 100000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 127,
+    "companyName": "토스뱅크",
+    "companyCode": "TS",
+    "interestRate": "1.85",
+    "primeInterestRate": "2.40",
+    "depositAmount": 1000000,
+    "name": "조건 없는 자유적금"
+  },
+  {
+    "id": 128,
+    "companyName": "토스뱅크",
+    "companyCode": "TS",
+    "interestRate": "4.10",
+    "primeInterestRate": "4.75",
+    "depositAmount": 10000000,
+    "name": "AI가 골라주는 맞춤형 금리"
+  },
+  {
+    "id": 129,
+    "companyName": "토스뱅크",
+    "companyCode": "TS",
+    "interestRate": "2.00",
+    "primeInterestRate": "2.50",
+    "depositAmount": 1000000000,
+    "name": "군인도 가능한 군적금"
+  }
+]

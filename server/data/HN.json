@@ -1,0 +1,38 @@
+[
+  {
+    "id": 114,
+    "companyName": "하나은행",
+    "companyCode": "HN",
+    "interestRate": "2.34",
+    "primeInterestRate": "3.12",
+    "depositAmount": 1000000,
+    "name": "청년 전용 고금리 적금"
+  },
+  {
+    "id": 115,
+    "companyName": "하나은행",
+    "companyCode": "HN",
+    "interestRate": "1.95",
+    "primeInterestRate": "2.40",
+    "depositAmount": 10000000,
+    "name": "모바일로 1분 가입, 혜택은 평생"
+  },
+  {
+    "id": 116,
+    "companyName": "하나은행",
+    "companyCode": "HN",
+    "interestRate": "3.20",
+    "primeInterestRate": "3.85",
+    "depositAmount": 100000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 117,
+    "companyName": "하나은행",
+    "companyCode": "HN",
+    "interestRate": "1.80",
+    "primeInterestRate": "2.30",
+    "depositAmount": 1000000000,
+    "name": "군인도 가능한 군적금"
+  }
+]

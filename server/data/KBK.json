@@ -1,0 +1,38 @@
+[
+  {
+    "id": 122,
+    "companyName": "케이뱅크",
+    "companyCode": "KBK",
+    "interestRate": "1.75",
+    "primeInterestRate": "2.30",
+    "depositAmount": 100000000,
+    "name": "직장인을 위한 월급 저축"
+  },
+  {
+    "id": 123,
+    "companyName": "케이뱅크",
+    "companyCode": "KBK",
+    "interestRate": "3.55",
+    "primeInterestRate": "4.22",
+    "depositAmount": 10000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 124,
+    "companyName": "케이뱅크",
+    "companyCode": "KBK",
+    "interestRate": "2.80",
+    "primeInterestRate": "3.38",
+    "depositAmount": 1000000,
+    "name": "청년 전용 고금리 적금"
+  },
+  {
+    "id": 125,
+    "companyName": "케이뱅크",
+    "companyCode": "KBK",
+    "interestRate": "1.65",
+    "primeInterestRate": "2.10",
+    "depositAmount": 1000000000,
+    "name": "군인도 가능한 군적금"
+  }
+]

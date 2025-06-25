@@ -1,0 +1,38 @@
+[
+  {
+    "id": 105,
+    "companyName": "신한은행",
+    "companyCode": "SH",
+    "interestRate": "3.48",
+    "primeInterestRate": "4.28",
+    "depositAmount": 10000000,
+    "name": "여행 적금, 항공권은 덤"
+  },
+  {
+    "id": 106,
+    "companyName": "신한은행",
+    "companyCode": "SH",
+    "interestRate": "1.87",
+    "primeInterestRate": "2.60",
+    "depositAmount": 1000000,
+    "name": "1억 모으기 프로젝트"
+  },
+  {
+    "id": 107,
+    "companyName": "신한은행",
+    "companyCode": "SH",
+    "interestRate": "3.45",
+    "primeInterestRate": "4.19",
+    "depositAmount": 100000000,
+    "name": "연말정산 대비 적금"
+  },
+  {
+    "id": 108,
+    "companyName": "신한은행",
+    "companyCode": "SH",
+    "interestRate": "2.89",
+    "primeInterestRate": "3.59",
+    "depositAmount": 1000000000,
+    "name": "금리 인상 특급 이벤트"
+  }
+]

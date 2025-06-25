@@ -1,0 +1,47 @@
+[
+  {
+    "id": 109,
+    "companyName": "우리은행",
+    "companyCode": "WR",
+    "interestRate": "4.17",
+    "primeInterestRate": "4.90",
+    "depositAmount": 100000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 110,
+    "companyName": "우리은행",
+    "companyCode": "WR",
+    "interestRate": "1.97",
+    "primeInterestRate": "2.70",
+    "depositAmount": 1000000,
+    "name": "청년 전용 고금리 적금"
+  },
+  {
+    "id": 111,
+    "companyName": "우리은행",
+    "companyCode": "WR",
+    "interestRate": "2.35",
+    "primeInterestRate": "3.00",
+    "depositAmount": 10000000,
+    "name": "직장인을 위한 월급 저축"
+  },
+  {
+    "id": 112,
+    "companyName": "우리은행",
+    "companyCode": "WR",
+    "interestRate": "1.85",
+    "primeInterestRate": "2.60",
+    "depositAmount": 1000000000,
+    "name": "군인도 가능한 군적금"
+  },
+  {
+    "id": 113,
+    "companyName": "우리은행",
+    "companyCode": "WR",
+    "interestRate": "3.25",
+    "primeInterestRate": "3.90",
+    "depositAmount": 100000000,
+    "name": "금리 인상 특급 이벤트"
+  }
+]

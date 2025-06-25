@@ -1,0 +1,38 @@
+[
+  {
+    "id": 138,
+    "companyName": "부산은행",
+    "companyCode": "BS",
+    "interestRate": "2.50",
+    "primeInterestRate": "3.10",
+    "depositAmount": 100000000,
+    "name": "직장인을 위한 월급 저축"
+  },
+  {
+    "id": 139,
+    "companyName": "부산은행",
+    "companyCode": "BS",
+    "interestRate": "3.60",
+    "primeInterestRate": "4.20",
+    "depositAmount": 10000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 140,
+    "companyName": "부산은행",
+    "companyCode": "BS",
+    "interestRate": "1.85",
+    "primeInterestRate": "2.35",
+    "depositAmount": 1000000,
+    "name": "청년 전용 고금리 적금"
+  },
+  {
+    "id": 141,
+    "companyName": "부산은행",
+    "companyCode": "BS",
+    "interestRate": "1.70",
+    "primeInterestRate": "2.10",
+    "depositAmount": 1000000000,
+    "name": "군인도 가능한 군적금"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 134,
+    "companyName": "씨티은행",
+    "companyCode": "CT",
+    "interestRate": "3.10",
+    "primeInterestRate": "3.85",
+    "depositAmount": 10000000,
+    "name": "AI가 골라주는 맞춤형 금리"
+  },
+  {
+    "id": 135,
+    "companyName": "씨티은행",
+    "companyCode": "CT",
+    "interestRate": "1.95",
+    "primeInterestRate": "2.55",
+    "depositAmount": 1000000,
+    "name": "조건 없는 자유적금"
+  },
+  {
+    "id": 136,
+    "companyName": "씨티은행",
+    "companyCode": "CT",
+    "interestRate": "4.00",
+    "primeInterestRate": "4.65",
+    "depositAmount": 100000000,
+    "name": "특판 한정, 선착순 마감"
+  },
+  {
+    "id": 137,
+    "companyName": "씨티은행",
+    "companyCode": "CT",
+    "interestRate": "2.10",
+    "primeInterestRate": "2.70",
+    "depositAmount": 1000000000,
+    "name": "군인도 가능한 군적금"
+  }
+]
