@@ -2,26 +2,18 @@ import "./App.css";
 import styled from "styled-components";
 import Card from "./_components/Card";
 import Filter from "./_components/Filter";
-
-export type BankProduct = {
-  id: number;
-  companyName: string;
-  companyCode: string;
-  interestRate: string;
-  primeInterestRate: string;
-  depositAmount: number;
-  name: string;
-};
-
-const data = {
-  id: 138,
-  companyName: "부산은행",
-  companyCode: "BS",
-  interestRate: "2.50",
-  primeInterestRate: "3.10",
-  depositAmount: 100000000,
-  name: "직장인을 위한 월급 저축",
-};
+import { DataContext } from "./hook/useDataContext";
+import { useEffect, useState } from "react";
+import type { BankProduct } from "./hook/useDataContext";
+// const data = {
+//   id: 138,
+//   companyName: "부산은행",
+//   companyCode: "BS",
+//   interestRate: "2.50",
+//   primeInterestRate: "3.10",
+//   depositAmount: 100000000,
+//   name: "직장인을 위한 월급 저축",
+// };
 
 const Container = styled.main`
   display: flex;
@@ -29,19 +21,40 @@ const Container = styled.main`
   gap: 20px;
 `;
 
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2개 컬럼, 각각 균등 분할 */
+  gap: 16px; /* 카드들 사이 간격 */
+`;
+
 function App() {
-  const getData = async () => {
-    const data = await fetch(
-      "http://localhost:3333/?companyCode=HN&companyCode=WR"
-    );
-    console.log(data);
-  };
-  getData();
+  const [data, setData] = useState<BankProduct[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:3333/");
+        const json = await res.json();
+        setData(json);
+      } catch (err) {
+        console.error("데이터 불러오기 실패:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <Container>
-      <Filter />
-      <Card product={data} />
-    </Container>
+    <DataContext.Provider value={{ data, setData }}>
+      <Container>
+        <Filter />
+        <CardContainer>
+          {data.map((product) => {
+            return <Card key={product.id} product={product} />;
+          })}
+        </CardContainer>
+      </Container>
+    </DataContext.Provider>
   );
 }
 

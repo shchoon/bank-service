@@ -19,13 +19,13 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (req.method === "HEAD" || req.method === "GET") {
-    if (req.url === "/") {
-      res.writeHead(200, { "Content-Type": "text/plain" });
-      res.end("OK");
-      return;
-    }
-  }
+  // if (req.method === "HEAD" || req.method === "GET") {
+  //   if (req.url === "/") {
+  //     res.writeHead(200, { "Content-Type": "text/plain" });
+  //     res.end("OK");
+  //     return;
+  //   }
+  // }
 
   if (req.method === "GET") {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`); // 전체 요청 url 구성
@@ -53,7 +53,7 @@ const server = http.createServer(async (req, res) => {
 
         let flattened;
 
-        if (!companyCode.length) {
+        if (companyCode.length > 0) {
           flattened = allData
             .filter((data) => companyCode.includes(data[0].companyCode))
             .flat();
@@ -61,12 +61,12 @@ const server = http.createServer(async (req, res) => {
           flattened = allData.flat();
         }
 
-        const sortedByInterestRate = flattened.sort(
+        flattened.sort(
           (a, b) => Number(b.interestRate) - Number(a.interestRate)
         );
 
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(sortedByInterestRate));
+        res.end(JSON.stringify(flattened));
         return;
       } catch (err) {
         res.writeHead(500, { "Content-Type": "text/plain" });

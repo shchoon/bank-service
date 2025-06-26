@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import BankCodeModal from "./filter/BankCodeModal";
+import RateModal from "./filter/RateModal";
+import { useState } from "react";
+import { FilterContext } from "../hook/useFilterContext";
+import type { FilterType } from "../hook/useFilterContext";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -18,6 +23,10 @@ const RefreshButton = styled.div`
   justify-content: center;
 `;
 
+const FilterBox = styled.div`
+  position: relative;
+`;
+
 const FilterOption = styled.div`
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -33,12 +42,39 @@ const FilterOption = styled.div`
 `;
 
 export default function Filter() {
+  const [activeFilter, setActiveFilter] = useState<FilterType | null>(null);
   return (
-    <FilterContainer>
-      <RefreshButton>↺</RefreshButton>
-      <FilterOption>은행명 🔻</FilterOption>
-      <FilterOption>기본금리순 🔻</FilterOption>
-      <FilterOption>금액 🔻</FilterOption>
-    </FilterContainer>
+    <FilterContext.Provider value={{ activeFilter, setActiveFilter }}>
+      <FilterContainer>
+        <RefreshButton
+          onClick={() => {
+            setActiveFilter(null);
+          }}
+        >
+          ↺
+        </RefreshButton>
+        <FilterBox>
+          <FilterOption
+            onClick={() => {
+              setActiveFilter("bank");
+            }}
+          >
+            은행명 🔻
+          </FilterOption>
+          {activeFilter === "bank" && <BankCodeModal />}
+        </FilterBox>
+        <FilterBox>
+          <FilterOption
+            onClick={() => {
+              setActiveFilter("rate");
+            }}
+          >
+            기본금리순 🔻
+          </FilterOption>
+          {activeFilter === "rate" && <RateModal />}
+        </FilterBox>
+        <FilterOption>금액 🔻</FilterOption>
+      </FilterContainer>
+    </FilterContext.Provider>
   );
 }
