@@ -31,9 +31,7 @@ const Container = styled.main`
 
 function App() {
   const getData = async () => {
-    const data = await fetch(
-      "http://localhost:3333/?companyCode=HN&companyCode=WR"
-    );
+    const data = await fetch("http://localhost:3333/bankList");
     console.log(data);
   };
   getData();

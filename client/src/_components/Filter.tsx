@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import BankCodeModal from "./filter/BankCodeModal";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -16,6 +17,10 @@ const RefreshButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const FilerBox = styled.div`
+  position: relative;
 `;
 
 const FilterOption = styled.div`
@@ -36,7 +41,10 @@ export default function Filter() {
   return (
     <FilterContainer>
       <RefreshButton>↺</RefreshButton>
-      <FilterOption>은행명 🔻</FilterOption>
+      <FilerBox>
+        <FilterOption>은행명 🔻</FilterOption>
+        <BankCodeModal />
+      </FilerBox>
       <FilterOption>기본금리순 🔻</FilterOption>
       <FilterOption>금액 🔻</FilterOption>
     </FilterContainer>
