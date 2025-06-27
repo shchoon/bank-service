@@ -31,7 +31,9 @@ const Container = styled.main`
 
 function App() {
   const getData = async () => {
-    const data = await fetch("http://localhost:3333/bankList");
+    const data = await fetch(
+      "http://localhost:3333/depositAmount?maxDeposit=1000000"
+    );
     console.log(data);
   };
   getData();
