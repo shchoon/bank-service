@@ -2,19 +2,13 @@ import styled from "styled-components";
 import UseSafeContext from "../../hook/useSafeContext";
 import { DataContext } from "../../hook/useDataContext";
 import { FilterContext } from "../../hook/useFilterContext";
-import { useState } from "react";
 import { updateFilterText } from "../../utils/filter";
+import { BankListContext } from "../../hook/useBankListContext";
 
 type ButtonProps = {
   bgColor?: string;
   borderColor?: string;
   textColor?: string;
-};
-
-export type BankList = {
-  name: string;
-  companyCode: string;
-  checked: boolean;
 };
 
 const Container = styled.form`
@@ -65,35 +59,21 @@ const StyledButton = styled.button<ButtonProps>`
   }
 `;
 
-const bankList: BankList[] = [
-  { name: "부산은행", companyCode: "BS", checked: false },
-  { name: "씨티은행", companyCode: "CT", checked: false },
-  { name: "하나은행", companyCode: "HN", checked: false },
-  { name: "국민은행", companyCode: "KB", checked: false },
-  { name: "케이뱅크", companyCode: "KBK", checked: false },
-  { name: "카카오뱅크", companyCode: "KK", checked: false },
-  { name: "SC제일은행", companyCode: "SC", checked: false },
-  { name: "신한은행", companyCode: "SH", checked: false },
-  { name: "토스뱅크", companyCode: "TS", checked: false },
-  { name: "우리은행", companyCode: "WR", checked: false },
-];
-
 export default function BankCodeModal() {
   const { data, setData } = UseSafeContext(DataContext);
   const { filterState, setFilterState } = UseSafeContext(FilterContext);
-
-  const [bankData, setBankData] = useState<BankList[]>(bankList);
+  const { bankListState, setBankListState } = UseSafeContext(BankListContext);
 
   const onChangeCheckedList = (i: number) => {
-    const dupList = [...bankData];
+    const dupList = [...bankListState];
     dupList[i] = { ...dupList[i], checked: !dupList[i].checked };
-    setBankData(dupList);
+    setBankListState(dupList);
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const query = bankData
+    const query = bankListState
       .map((data) => {
         if (data.checked) {
           return "companyCode=" + data.companyCode + "&";
@@ -105,13 +85,13 @@ export default function BankCodeModal() {
 
     const res = await fetch("http://localhost:3333/?" + query);
     const data = await res.json();
-    const updateFilter = updateFilterText(filterState, "bank", bankData);
+    const updateFilter = updateFilterText(filterState, "bank", bankListState);
     setData(data);
     setFilterState(updateFilter);
   };
 
   const cancelChecked = () => {
-    setBankData((perv) =>
+    setBankListState((perv) =>
       perv.map((data) => {
         if (data.checked) {
           return { ...data, checked: false };
@@ -129,7 +109,7 @@ export default function BankCodeModal() {
       }}
     >
       <CheckContainer>
-        {bankData.map((bank, i: number) => {
+        {bankListState.map((bank, i: number) => {
           return (
             <CheckBox key={i}>
               <input

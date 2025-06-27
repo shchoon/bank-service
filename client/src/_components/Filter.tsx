@@ -5,6 +5,8 @@ import { useState } from "react";
 import { FilterContext } from "../hook/useFilterContext";
 import type { FilterStateType } from "../hook/useFilterContext";
 import { toggleFilter } from "../utils/filter";
+import { BankListContext } from "../hook/useBankListContext";
+import type { BankList } from "./filter/BankCodeModal";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -59,9 +61,23 @@ const initialFilterState = {
   },
 };
 
+const initialBankData: BankList[] = [
+  { name: "부산은행", companyCode: "BS", checked: false },
+  { name: "씨티은행", companyCode: "CT", checked: false },
+  { name: "하나은행", companyCode: "HN", checked: false },
+  { name: "국민은행", companyCode: "KB", checked: false },
+  { name: "케이뱅크", companyCode: "KBK", checked: false },
+  { name: "카카오뱅크", companyCode: "KK", checked: false },
+  { name: "SC제일은행", companyCode: "SC", checked: false },
+  { name: "신한은행", companyCode: "SH", checked: false },
+  { name: "토스뱅크", companyCode: "TS", checked: false },
+  { name: "우리은행", companyCode: "WR", checked: false },
+];
+
 export default function Filter() {
   const [filterState, setFilterState] =
     useState<FilterStateType>(initialFilterState);
+  const [bankListState, setBankListState] = useState<BankList>(initialBankData);
 
   return (
     <FilterContext.Provider value={{ filterState, setFilterState }}>
@@ -73,17 +89,19 @@ export default function Filter() {
         >
           ↺
         </RefreshButton>
-        <FilterBox>
-          <FilterOption
-            onClick={() => {
-              const updateState = toggleFilter(filterState, "bank");
-              setFilterState(updateState);
-            }}
-          >
-            {filterState.bank.text} 🔻
-          </FilterOption>
-          {filterState.bank.isActive && <BankCodeModal />}
-        </FilterBox>
+        <BankListContext.Provider value={{ bankListState, setBankListState }}>
+          <FilterBox>
+            <FilterOption
+              onClick={() => {
+                const updateState = toggleFilter(filterState, "bank");
+                setFilterState(updateState);
+              }}
+            >
+              {filterState.bank.text} 🔻
+            </FilterOption>
+            {filterState.bank.isActive && <BankCodeModal />}
+          </FilterBox>
+        </BankListContext.Provider>
         <FilterBox>
           <FilterOption
             onClick={() => {
