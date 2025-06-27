@@ -1,4 +1,5 @@
 import type { FilterStateType } from "../hook/useFilterContext";
+import type { BankList } from "../_components/filter/BankCodeModal";
 
 export const toggleFilter = (
   prev: FilterStateType,
@@ -14,4 +15,44 @@ export const toggleFilter = (
   }
 
   return updateState;
+};
+export const updateFilterText = (
+  prev: FilterStateType,
+  key: keyof FilterStateType,
+  bankList?: BankList[],
+  text?: string
+): FilterStateType => {
+  if (bankList) {
+    let result = "";
+    const selectBanks = bankList.filter((bank) => bank.checked);
+
+    selectBanks.forEach((bank, i) => {
+      if (i === 0) {
+        result += bank.name;
+      } else {
+        result += `, ${bank.name}`;
+      }
+    });
+    return {
+      ...prev,
+      [key]: {
+        ...prev[key],
+        text: result,
+        isActive: false,
+      },
+    };
+  }
+
+  if (text) {
+    return {
+      ...prev,
+      [key]: {
+        ...prev[key],
+        text: text,
+        isActive: false,
+      },
+    };
+  }
+
+  return prev;
 };

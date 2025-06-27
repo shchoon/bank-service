@@ -3,6 +3,7 @@ import UseSafeContext from "../../hook/useSafeContext";
 import { DataContext } from "../../hook/useDataContext";
 import { FilterContext } from "../../hook/useFilterContext";
 import { useState } from "react";
+import { updateFilterText } from "../../utils/filter";
 
 type ButtonProps = {
   bgColor?: string;
@@ -10,7 +11,7 @@ type ButtonProps = {
   textColor?: string;
 };
 
-type BankList = {
+export type BankList = {
   name: string;
   companyCode: string;
   checked: boolean;
@@ -89,29 +90,6 @@ export default function BankCodeModal() {
     setBankData(dupList);
   };
 
-  const updateFilterBankText = (bankData: BankList[]) => {
-    const selectBanks = bankData.filter((bank) => bank.checked);
-
-    let text = "";
-
-    selectBanks.forEach((bank, i) => {
-      if (i === 0) {
-        text += bank.name;
-      } else {
-        text += `, ${bank.name}`;
-      }
-    });
-
-    setFilterState((prev) => ({
-      ...prev,
-      bank: {
-        ...prev.bank,
-        text: text,
-        isActive: false,
-      },
-    }));
-  };
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -127,9 +105,9 @@ export default function BankCodeModal() {
 
     const res = await fetch("http://localhost:3333/?" + query);
     const data = await res.json();
-
+    const updateFilter = updateFilterText(filterState, "bank", bankData);
     setData(data);
-    updateFilterBankText(bankData);
+    setFilterState(updateFilter);
   };
 
   const cancelChecked = () => {

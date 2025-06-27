@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import UseSafeContext from "../../hook/useSafeContext";
 import { DataContext } from "../../hook/useDataContext";
+import { FilterContext } from "../../hook/useFilterContext";
+import { updateFilterText } from "../../utils/filter";
 
 const Container = styled.div`
   background: white;
@@ -23,6 +25,7 @@ const SelectBox = styled.div`
 
 export default function RateModal() {
   const { data, setData } = UseSafeContext(DataContext);
+  const { filterState, setFilterState } = UseSafeContext(FilterContext);
 
   const filterRate = async (route = "") => {
     const res = await fetch("http://localhost:3333/" + route);
@@ -33,8 +36,32 @@ export default function RateModal() {
 
   return (
     <Container>
-      <SelectBox onClick={() => filterRate()}>기본금리순</SelectBox>
-      <SelectBox onClick={() => filterRate("primeInterestRate")}>
+      <SelectBox
+        onClick={() => {
+          const updateFilter = updateFilterText(
+            filterState,
+            "rate",
+            undefined,
+            "기본금리순"
+          );
+          filterRate();
+          setFilterState(updateFilter);
+        }}
+      >
+        기본금리순
+      </SelectBox>
+      <SelectBox
+        onClick={() => {
+          const updateFilter = updateFilterText(
+            filterState,
+            "rate",
+            undefined,
+            "최고금리순"
+          );
+          filterRate();
+          setFilterState(updateFilter);
+        }}
+      >
         최고금리순
       </SelectBox>
     </Container>
