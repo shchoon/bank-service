@@ -1,10 +1,16 @@
 import { createContext } from "react";
 
-export type FilterType = "bank" | "rate" | "deposit";
+type StateType = { isActive: boolean; text: string };
+
+export type FilterStateType = {
+  bank: StateType;
+  rate: StateType;
+  deposit: StateType;
+};
 
 export type FilterContextType = {
-  activeFilter: FilterType | null;
-  setActiveFilter: React.Dispatch<React.SetStateAction<FilterType | null>>;
+  filterState: FilterStateType;
+  setFilterState: React.Dispatch<React.SetStateAction<FilterStateType>>;
 };
 
 export const FilterContext = createContext<FilterContextType | null>(null);
