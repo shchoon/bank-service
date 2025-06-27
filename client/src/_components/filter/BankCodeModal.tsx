@@ -1,4 +1,5 @@
 import styled from "styled-components";
+<<<<<<< HEAD
 import UseSafeContext from "../../hook/useSafeContext";
 import { DataContext } from "../../hook/useDataContext";
 import { useState } from "react";
@@ -20,11 +21,22 @@ const Container = styled.form`
   border-radius: 8px;
   position: absolute;
   top: 120%;
+=======
+
+const Container = styled.div`
+  padding: 5px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  position: absolute;
+  top: 40px;
+  gap: 5px;
+>>>>>>> 3c2d97fb911ea30df2ec382e40951b6a779f219b
   width: 150px;
   background: white;
 `;
 
 const CheckContainer = styled.label`
+<<<<<<< HEAD
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -146,6 +158,21 @@ export default function BankCodeModal() {
           적용
         </StyledButton>
       </ButtonBox>
+=======
+  display: flex;
+  gap: 10px;
+`;
+
+export default function BankCodeModal() {
+  return (
+    <Container>
+      <CheckContainer>
+        <input type="checkbox" />
+        <div style={{ display: "flex", flex: 1, alignItems: "center" }}>
+          <span>하나은행</span>
+        </div>
+      </CheckContainer>
+>>>>>>> 3c2d97fb911ea30df2ec382e40951b6a779f219b
     </Container>
   );
 }
