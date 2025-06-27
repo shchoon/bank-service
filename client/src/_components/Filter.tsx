@@ -4,6 +4,7 @@ import RateModal from "./filter/RateModal";
 import { useState } from "react";
 import { FilterContext } from "../hook/useFilterContext";
 import type { FilterStateType } from "../hook/useFilterContext";
+import { toggleFilter } from "../utils/filter";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -35,7 +36,9 @@ const FilterOption = styled.div`
   cursor: pointer;
   font-size: 14px;
   white-space: nowrap;
-
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &:hover {
     background-color: #f9f9f9;
   }
@@ -60,20 +63,6 @@ export default function Filter() {
   const [filterState, setFilterState] =
     useState<FilterStateType>(initialFilterState);
 
-  const toggleFilter = (prev: FilterStateType, key: keyof FilterStateType) => {
-    const updateState: FilterStateType = {} as FilterStateType;
-
-    for (const k in prev) {
-      updateState[k as keyof FilterStateType] = {
-        ...prev[k as keyof FilterStateType],
-        isActive:
-          k === key ? !prev[k as keyof FilterStateType].isActive : false,
-      };
-    }
-
-    setFilterState(updateState);
-  };
-
   return (
     <FilterContext.Provider value={{ filterState, setFilterState }}>
       <FilterContainer>
@@ -87,24 +76,26 @@ export default function Filter() {
         <FilterBox>
           <FilterOption
             onClick={() => {
-              toggleFilter(filterState, "bank");
+              const updateState = toggleFilter(filterState, "bank");
+              setFilterState(updateState);
             }}
           >
-            은행명 🔻
+            {filterState.bank.text} 🔻
           </FilterOption>
           {filterState.bank.isActive && <BankCodeModal />}
         </FilterBox>
         <FilterBox>
           <FilterOption
             onClick={() => {
-              toggleFilter(filterState, "rate");
+              const updateState = toggleFilter(filterState, "rate");
+              setFilterState(updateState);
             }}
           >
-            기본금리순 🔻
+            {filterState.rate.text} 🔻
           </FilterOption>
           {filterState.rate.isActive && <RateModal />}
         </FilterBox>
-        <FilterOption>금액 🔻</FilterOption>
+        <FilterOption>{filterState.deposit.text} 🔻</FilterOption>
       </FilterContainer>
     </FilterContext.Provider>
   );
