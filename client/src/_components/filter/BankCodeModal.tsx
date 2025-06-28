@@ -4,12 +4,7 @@ import { DataContext } from "../../hook/useDataContext";
 import { FilterContext } from "../../hook/useFilterContext";
 import { updateFilterText } from "../../utils/filter";
 import { BankListContext } from "../../hook/useBankListContext";
-
-type ButtonProps = {
-  bgColor?: string;
-  borderColor?: string;
-  textColor?: string;
-};
+import StyledButton from "../styled/StyledButton";
 
 const Container = styled.form`
   border: 2px solid gray;
@@ -40,23 +35,6 @@ const ButtonBox = styled.div`
   border-top: 1px solid gray;
   padding: 10px;
   gap: 10px;
-`;
-
-const StyledButton = styled.button<ButtonProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3px;
-  width: 50%;
-  border: 0.5px solid gray;
-  background: ${(props) => props.bgColor || "white"};
-  color: ${(props) => props.textColor || "black"};
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
 `;
 
 export default function BankCodeModal() {

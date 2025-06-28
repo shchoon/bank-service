@@ -1,5 +1,5 @@
 import type { FilterStateType } from "../hook/useFilterContext";
-import type { BankList } from "../_components/filter/BankCodeModal";
+import type { BankList } from "../hook/useBankListContext";
 
 export const toggleFilter = (
   prev: FilterStateType,
@@ -16,6 +16,7 @@ export const toggleFilter = (
 
   return updateState;
 };
+
 export const updateFilterText = (
   prev: FilterStateType,
   key: keyof FilterStateType,

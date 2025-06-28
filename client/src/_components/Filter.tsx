@@ -6,7 +6,8 @@ import { FilterContext } from "../hook/useFilterContext";
 import type { FilterStateType } from "../hook/useFilterContext";
 import { toggleFilter } from "../utils/filter";
 import { BankListContext } from "../hook/useBankListContext";
-import type { BankList } from "./filter/BankCodeModal";
+import type { BankList } from "../hook/useBankListContext";
+import DepositModal from "./filter/DepositModal";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -77,7 +78,8 @@ const initialBankData: BankList[] = [
 export default function Filter() {
   const [filterState, setFilterState] =
     useState<FilterStateType>(initialFilterState);
-  const [bankListState, setBankListState] = useState<BankList>(initialBankData);
+  const [bankListState, setBankListState] =
+    useState<BankList[]>(initialBankData);
 
   return (
     <FilterContext.Provider value={{ filterState, setFilterState }}>
@@ -113,7 +115,17 @@ export default function Filter() {
           </FilterOption>
           {filterState.rate.isActive && <RateModal />}
         </FilterBox>
-        <FilterOption>{filterState.deposit.text} 🔻</FilterOption>
+        <FilterBox>
+          <FilterOption
+            onClick={() => {
+              const updateState = toggleFilter(filterState, "deposit");
+              setFilterState(updateState);
+            }}
+          >
+            {filterState.deposit.text} 🔻
+          </FilterOption>
+          {filterState.deposit.isActive && <DepositModal />}
+        </FilterBox>
       </FilterContainer>
     </FilterContext.Provider>
   );

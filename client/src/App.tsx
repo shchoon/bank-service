@@ -5,15 +5,6 @@ import Filter from "./_components/Filter";
 import { DataContext } from "./hook/useDataContext";
 import { useEffect, useState } from "react";
 import type { BankProduct } from "./hook/useDataContext";
-// const data = {
-//   id: 138,
-//   companyName: "부산은행",
-//   companyCode: "BS",
-//   interestRate: "2.50",
-//   primeInterestRate: "3.10",
-//   depositAmount: 100000000,
-//   name: "직장인을 위한 월급 저축",
-// };
 
 const Container = styled.main`
   display: flex;
