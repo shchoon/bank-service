@@ -4,7 +4,9 @@ import { DataContext } from "../../hook/useDataContext";
 import { FilterContext } from "../../hook/useFilterContext";
 import { updateFilterText } from "../../utils/filter";
 import { BankListContext } from "../../hook/useBankListContext";
+import { ReqUrlContext } from "../../hook/useReqUrlContext";
 import StyledButton from "../styled/StyledButton";
+import updateReqUrl from "../../utils/updateReqUrl";
 
 const Container = styled.form`
   border: 2px solid gray;
@@ -41,6 +43,7 @@ export default function BankCodeModal() {
   const { setData } = UseSafeContext(DataContext);
   const { filterState, setFilterState } = UseSafeContext(FilterContext);
   const { bankListState, setBankListState } = UseSafeContext(BankListContext);
+  const { reqUrlState, setReqUrlState } = UseSafeContext(ReqUrlContext);
 
   const onChangeCheckedList = (i: number) => {
     const dupList = [...bankListState];
@@ -60,10 +63,15 @@ export default function BankCodeModal() {
         }
       })
       .join("");
-
-    const res = await fetch("http://localhost:3333/?" + query);
+    const { updatedReqUrl, reqUrl } = updateReqUrl(
+      reqUrlState,
+      "companyCode",
+      query
+    );
+    const res = await fetch("http://localhost:3333/?" + reqUrl);
     const data = await res.json();
     const updateFilter = updateFilterText(filterState, "bank", bankListState);
+    setReqUrlState(updatedReqUrl);
     setData(data);
     setFilterState(updateFilter);
   };

@@ -6,6 +6,9 @@ import { formatDepositToNum } from "../../utils/formatDepositToNum";
 import UseSafeContext from "../../hook/useSafeContext";
 import { FilterContext } from "../../hook/useFilterContext";
 import { updateFilterText } from "../../utils/filter";
+import { ReqUrlContext } from "../../hook/useReqUrlContext";
+import { DataContext } from "../../hook/useDataContext";
+import updateReqUrl from "../../utils/updateReqUrl";
 
 const Container = styled.form`
   border: 1px solid gray;
@@ -19,7 +22,6 @@ const Container = styled.form`
   background: white;
   border-radius: 8px;
 `;
-
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,24 +41,42 @@ const InputBox = styled.input`
 
 export default function DepositModal() {
   const { filterState, setFilterState } = UseSafeContext(FilterContext);
+  const { reqUrlState, setReqUrlState } = UseSafeContext(ReqUrlContext);
+  const { setData } = UseSafeContext(DataContext);
   const initialDeposit =
     filterState.deposit.text === "금액"
       ? ""
       : formatDepositToNum(filterState.deposit.text);
   const [deposit, setDeposit] = useState(initialDeposit);
 
+  const filterDeposit = async () => {
+    console.log(reqUrlState);
+    const query = `deposit=${Number(deposit)}`;
+    const { updatedReqUrl, reqUrl } = updateReqUrl(
+      reqUrlState,
+      "deposit",
+      query
+    );
+    const res = await fetch("http://localhost:3333/?" + reqUrl);
+    const data = await res.json();
+
+    const depositText = deposit ? formatDepositToStr(deposit) : "금액";
+    const updateFilter = updateFilterText(
+      filterState,
+      "deposit",
+      undefined,
+      depositText
+    );
+    setReqUrlState(updatedReqUrl);
+    setData(data);
+    setFilterState(updateFilter);
+  };
+
   return (
     <Container
       onSubmit={(e) => {
         e.preventDefault();
-        const depositText = deposit ? formatDepositToStr(deposit) : "금액";
-        const updateFilter = updateFilterText(
-          filterState,
-          "deposit",
-          undefined,
-          depositText
-        );
-        setFilterState(updateFilter);
+        filterDeposit();
       }}
     >
       <TextBox>

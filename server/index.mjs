@@ -53,10 +53,7 @@ const server = http.createServer(async (req, res) => {
 
         let flattened;
 
-<<<<<<< HEAD
-=======
         // companyCode 쿼리 처리
->>>>>>> 3c2d97fb911ea30df2ec382e40951b6a779f219b
         if (companyCode.length > 0) {
           flattened = allData
             .filter((data) => companyCode.includes(data[0].companyCode))
@@ -71,8 +68,6 @@ const server = http.createServer(async (req, res) => {
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(flattened));
-<<<<<<< HEAD
-=======
         return;
       } catch (err) {
         res.writeHead(500, { "Content-Type": "text/plain" });
@@ -133,7 +128,6 @@ const server = http.createServer(async (req, res) => {
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(result));
->>>>>>> 3c2d97fb911ea30df2ec382e40951b6a779f219b
         return;
       } catch (err) {
         res.writeHead(500, { "Content-Type": "text/plain" });
