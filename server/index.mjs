@@ -53,26 +53,27 @@ const server = http.createServer(async (req, res) => {
 
         let flattened;
 
-<<<<<<< HEAD
-=======
         // companyCode 쿼리 처리
->>>>>>> 3c2d97fb911ea30df2ec382e40951b6a779f219b
         if (companyCode.length > 0) {
           flattened = allData
             .filter((data) => companyCode.includes(data[0].companyCode))
             .flat();
         } else {
-          flattened = allData.flat();
+          flattened = allData
+            .flat()
+            .sort((a, b) => Number(b.interestRate) - Number(a.interestRate));
         }
 
-        flattened.sort(
-          (a, b) => Number(b.interestRate) - Number(a.interestRate)
-        );
+        if (primeInterestRate) {
+          console.log(flattened);
+          flattened = flattened.sort(
+            (a, b) => b.primeInterestRate - a.primeInterestRate
+          );
+          console.log(flattened);
+        }
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(flattened));
-<<<<<<< HEAD
-=======
         return;
       } catch (err) {
         res.writeHead(500, { "Content-Type": "text/plain" });
@@ -82,32 +83,32 @@ const server = http.createServer(async (req, res) => {
     }
 
     // 최고금리순
-    if (pathname === "/primeInterestRate") {
-      try {
-        const allData = await Promise.all(
-          jsonFiles.map(async (file) => {
-            const content = await fs.readFile(
-              path.join(__dirname, "data", file)
-            );
-            return JSON.parse(content);
-          })
-        );
+    // if (pathname === "/primeInterestRate") {
+    //   try {
+    //     const allData = await Promise.all(
+    //       jsonFiles.map(async (file) => {
+    //         const content = await fs.readFile(
+    //           path.join(__dirname, "data", file)
+    //         );
+    //         return JSON.parse(content);
+    //       })
+    //     );
 
-        let flattened = allData.flat();
+    //     let flattened = allData.flat();
 
-        let result = flattened.sort(
-          (a, b) => b.primeInterestRate - a.primeInterestRate
-        );
+    //     let result = flattened.sort(
+    //       (a, b) => b.primeInterestRate - a.primeInterestRate
+    //     );
 
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(result));
-        return;
-      } catch (err) {
-        res.writeHead(500, { "Content-Type": "text/plain" });
-        res.end("Internal Server Error");
-        return;
-      }
-    }
+    //     res.writeHead(200, { "Content-Type": "application/json" });
+    //     res.end(JSON.stringify(result));
+    //     return;
+    //   } catch (err) {
+    //     res.writeHead(500, { "Content-Type": "text/plain" });
+    //     res.end("Internal Server Error");
+    //     return;
+    //   }
+    // }
 
     // 최대 예금 금액
     if (pathname === "/depositAmount") {
@@ -133,7 +134,6 @@ const server = http.createServer(async (req, res) => {
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(result));
->>>>>>> 3c2d97fb911ea30df2ec382e40951b6a779f219b
         return;
       } catch (err) {
         res.writeHead(500, { "Content-Type": "text/plain" });

@@ -27,8 +27,9 @@ export default function RateModal() {
   const { setData } = UseSafeContext(DataContext);
   const { filterState, setFilterState } = UseSafeContext(FilterContext);
 
-  const filterRate = async (route = "") => {
-    const res = await fetch("http://localhost:3333/" + route);
+  const filterRate = async (orderBy: string) => {
+    const reqUrl = orderBy === "basic" ? `` : "primeInterestRate=true";
+    const res = await fetch(`http://localhost:3333/?${reqUrl}`);
     const data = await res.json();
 
     setData(data);
@@ -44,7 +45,7 @@ export default function RateModal() {
             undefined,
             "기본금리순"
           );
-          filterRate();
+          filterRate("basic");
           setFilterState(updateFilter);
         }}
       >
@@ -58,7 +59,7 @@ export default function RateModal() {
             undefined,
             "최고금리순"
           );
-          filterRate();
+          filterRate("prime");
           setFilterState(updateFilter);
         }}
       >
