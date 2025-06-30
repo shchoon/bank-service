@@ -3,6 +3,8 @@ import UseSafeContext from "../../hook/useSafeContext";
 import { DataContext } from "../../hook/useDataContext";
 import { FilterContext } from "../../hook/useFilterContext";
 import { updateFilterText } from "../../utils/filter";
+import { ReqUrlContext } from "../../hook/useReqUrlContext";
+import updateReqUrl from "../../utils/updateReqUrl";
 
 const Container = styled.div`
   background: white;
@@ -26,12 +28,26 @@ const SelectBox = styled.div`
 export default function RateModal() {
   const { setData } = UseSafeContext(DataContext);
   const { filterState, setFilterState } = UseSafeContext(FilterContext);
+  const { reqUrlState, setReqUrlState } = UseSafeContext(ReqUrlContext);
 
-  const filterRate = async (orderBy: string) => {
-    const reqUrl = orderBy === "basic" ? `` : "primeInterestRate=true";
-    const res = await fetch(`http://localhost:3333/?${reqUrl}`);
+  const filterRate = async (orderBy: boolean = false) => {
+    const query = orderBy ? "primeInterestRate=true&" : "";
+    const { updatedReqUrl, reqUrl } = updateReqUrl(
+      reqUrlState,
+      "interestRate",
+      query
+    );
+    const res = await fetch("http://localhost:3333/?" + reqUrl);
     const data = await res.json();
 
+    const updateFilter = updateFilterText(
+      filterState,
+      "rate",
+      undefined,
+      orderBy ? "최고금리순" : "기본금리순"
+    );
+    setReqUrlState(updatedReqUrl);
+    setFilterState(updateFilter);
     setData(data);
   };
 
@@ -39,14 +55,7 @@ export default function RateModal() {
     <Container>
       <SelectBox
         onClick={() => {
-          const updateFilter = updateFilterText(
-            filterState,
-            "rate",
-            undefined,
-            "기본금리순"
-          );
-          filterRate("basic");
-          setFilterState(updateFilter);
+          filterRate();
         }}
       >
         기본금리순
@@ -59,7 +68,7 @@ export default function RateModal() {
             undefined,
             "최고금리순"
           );
-          filterRate("prime");
+          filterRate(true);
           setFilterState(updateFilter);
         }}
       >

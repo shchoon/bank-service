@@ -8,6 +8,11 @@ import { toggleFilter } from "../utils/filter";
 import { BankListContext } from "../hook/useBankListContext";
 import type { BankList } from "../hook/useBankListContext";
 import DepositModal from "./filter/DepositModal";
+import { ReqUrlContext } from "../hook/useReqUrlContext";
+import type { ReqUrlType } from "../hook/useReqUrlContext";
+import updateReqUrl from "../utils/updateReqUrl";
+import { DataContext } from "../hook/useDataContext";
+import UseSafeContext from "../hook/useSafeContext";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -75,58 +80,80 @@ const initialBankData: BankList[] = [
   { name: "우리은행", companyCode: "WR", checked: false },
 ];
 
+const initialReqUrl: ReqUrlType = {
+  companyCode: "",
+  interestRate: "",
+  deposit: "",
+};
+
 export default function Filter() {
   const [filterState, setFilterState] =
     useState<FilterStateType>(initialFilterState);
   const [bankListState, setBankListState] =
     useState<BankList[]>(initialBankData);
+  const [reqUrlState, setReqUrlState] = useState(initialReqUrl);
+  const { setData } = UseSafeContext(DataContext);
+
+  const handleClickRefresh = async () => {
+    const { updatedReqUrl } = updateReqUrl(true);
+
+    const res = await fetch("http://localhost:3333/");
+    const data = await res.json();
+
+    setData(data);
+    setReqUrlState(updatedReqUrl);
+    setBankListState(initialBankData);
+    setFilterState(initialFilterState);
+  };
 
   return (
     <FilterContext.Provider value={{ filterState, setFilterState }}>
-      <FilterContainer>
-        <RefreshButton
-          onClick={() => {
-            setFilterState(initialFilterState);
-          }}
-        >
-          ↺
-        </RefreshButton>
-        <BankListContext.Provider value={{ bankListState, setBankListState }}>
+      <ReqUrlContext.Provider value={{ reqUrlState, setReqUrlState }}>
+        <FilterContainer>
+          <RefreshButton
+            onClick={() => {
+              handleClickRefresh();
+            }}
+          >
+            ↺
+          </RefreshButton>
+          <BankListContext.Provider value={{ bankListState, setBankListState }}>
+            <FilterBox>
+              <FilterOption
+                onClick={() => {
+                  const updateState = toggleFilter(filterState, "bank");
+                  setFilterState(updateState);
+                }}
+              >
+                {filterState.bank.text} 🔻
+              </FilterOption>
+              {filterState.bank.isActive && <BankCodeModal />}
+            </FilterBox>
+          </BankListContext.Provider>
           <FilterBox>
             <FilterOption
               onClick={() => {
-                const updateState = toggleFilter(filterState, "bank");
+                const updateState = toggleFilter(filterState, "rate");
                 setFilterState(updateState);
               }}
             >
-              {filterState.bank.text} 🔻
+              {filterState.rate.text} 🔻
             </FilterOption>
-            {filterState.bank.isActive && <BankCodeModal />}
+            {filterState.rate.isActive && <RateModal />}
           </FilterBox>
-        </BankListContext.Provider>
-        <FilterBox>
-          <FilterOption
-            onClick={() => {
-              const updateState = toggleFilter(filterState, "rate");
-              setFilterState(updateState);
-            }}
-          >
-            {filterState.rate.text} 🔻
-          </FilterOption>
-          {filterState.rate.isActive && <RateModal />}
-        </FilterBox>
-        <FilterBox>
-          <FilterOption
-            onClick={() => {
-              const updateState = toggleFilter(filterState, "deposit");
-              setFilterState(updateState);
-            }}
-          >
-            {filterState.deposit.text} 🔻
-          </FilterOption>
-          {filterState.deposit.isActive && <DepositModal />}
-        </FilterBox>
-      </FilterContainer>
+          <FilterBox>
+            <FilterOption
+              onClick={() => {
+                const updateState = toggleFilter(filterState, "deposit");
+                setFilterState(updateState);
+              }}
+            >
+              {filterState.deposit.text} 🔻
+            </FilterOption>
+            {filterState.deposit.isActive && <DepositModal />}
+          </FilterBox>
+        </FilterContainer>
+      </ReqUrlContext.Provider>
     </FilterContext.Provider>
   );
 }
