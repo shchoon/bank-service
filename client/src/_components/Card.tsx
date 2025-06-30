@@ -1,4 +1,4 @@
-import type { BankProduct } from "../App";
+import type { BankProduct } from "../hook/useDataContext";
 import styled from "styled-components";
 
 type Props = {

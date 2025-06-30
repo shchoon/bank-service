@@ -38,7 +38,7 @@ const ButtonBox = styled.div`
 `;
 
 export default function BankCodeModal() {
-  const { data, setData } = UseSafeContext(DataContext);
+  const { setData } = UseSafeContext(DataContext);
   const { filterState, setFilterState } = UseSafeContext(FilterContext);
   const { bankListState, setBankListState } = UseSafeContext(BankListContext);
 

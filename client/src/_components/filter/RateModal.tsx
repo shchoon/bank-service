@@ -24,7 +24,7 @@ const SelectBox = styled.div`
 `;
 
 export default function RateModal() {
-  const { data, setData } = UseSafeContext(DataContext);
+  const { setData } = UseSafeContext(DataContext);
   const { filterState, setFilterState } = UseSafeContext(FilterContext);
 
   const filterRate = async (route = "") => {
