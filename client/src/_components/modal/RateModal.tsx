@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import UseSafeContext from "../../hook/useSafeContext";
-import { DataContext } from "../../hook/useDataContext";
-import { FilterContext } from "../../hook/useFilterContext";
 import { updateFilterText } from "../../utils/filter";
-import { ReqUrlContext } from "../../hook/useReqUrlContext";
+import { useReqUrlContext } from "../../hook/useReqUrlContext";
 import updateReqUrl from "../../utils/updateReqUrl";
+import { useDataContext } from "../../hook/useDataContext";
+import { useFilterContext } from "../../hook/useFilterContext";
 
 const Container = styled.div`
   background: white;
@@ -26,9 +25,9 @@ const SelectBox = styled.div`
 `;
 
 export default function RateModal() {
-  const { setData } = UseSafeContext(DataContext);
-  const { filterState, setFilterState } = UseSafeContext(FilterContext);
-  const { reqUrlState, setReqUrlState } = UseSafeContext(ReqUrlContext);
+  const { setData } = useDataContext();
+  const { filterState, setFilterState } = useFilterContext();
+  const { reqUrlState, setReqUrlState } = useReqUrlContext();
 
   const filterRate = async (orderBy: boolean = false) => {
     const query = orderBy ? "primeInterestRate=true&" : "";

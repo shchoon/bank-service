@@ -1,16 +1,9 @@
-import { createContext } from "react";
+import { useContext } from "react";
+import { FilterContext } from "../contexts/FilterContext";
 
-type StateType = { isActive: boolean; text: string };
-
-export type FilterStateType = {
-  bank: StateType;
-  rate: StateType;
-  deposit: StateType;
+export const useFilterContext = () => {
+  const context = useContext(FilterContext);
+  if (!context)
+    throw new Error("useFilterContext must be used within FilterProvider");
+  return context;
 };
-
-export type FilterContextType = {
-  filterState: FilterStateType;
-  setFilterState: React.Dispatch<React.SetStateAction<FilterStateType>>;
-};
-
-export const FilterContext = createContext<FilterContextType | null>(null);

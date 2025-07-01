@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import UseSafeContext from "../../hook/useSafeContext";
-import { DataContext } from "../../hook/useDataContext";
-import { FilterContext } from "../../hook/useFilterContext";
+import { useFilterContext } from "../../hook/useFilterContext";
+import { useDataContext } from "../../hook/useDataContext";
 import { updateFilterText } from "../../utils/filter";
 import { BankListContext } from "../../hook/useBankListContext";
-import { ReqUrlContext } from "../../hook/useReqUrlContext";
+import { useReqUrlContext } from "../../hook/useReqUrlContext";
 import StyledButton from "../styled/StyledButton";
 import updateReqUrl from "../../utils/updateReqUrl";
+import UseSafeContext from "../../hook/useSafeContext";
 
 const Container = styled.form`
   border: 2px solid gray;
@@ -40,10 +40,10 @@ const ButtonBox = styled.div`
 `;
 
 export default function BankCodeModal() {
-  const { setData } = UseSafeContext(DataContext);
-  const { filterState, setFilterState } = UseSafeContext(FilterContext);
+  const { setData } = useDataContext();
+  const { filterState, setFilterState } = useFilterContext();
   const { bankListState, setBankListState } = UseSafeContext(BankListContext);
-  const { reqUrlState, setReqUrlState } = UseSafeContext(ReqUrlContext);
+  const { reqUrlState, setReqUrlState } = useReqUrlContext();
 
   const onChangeCheckedList = (i: number) => {
     const dupList = [...bankListState];

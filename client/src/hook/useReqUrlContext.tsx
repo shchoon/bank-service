@@ -1,14 +1,9 @@
-import { createContext } from "react";
+import { useContext } from "react";
+import { ReqUrlContext } from "../contexts/ReqUrlContext";
 
-export type ReqUrlType = {
-  companyCode: string;
-  interestRate: string;
-  deposit: string;
+export const useReqUrlContext = () => {
+  const context = useContext(ReqUrlContext);
+  if (!context)
+    throw new Error("ReqUrlContext must be used within ReqUrlProvider");
+  return context;
 };
-
-type ReqUrlContextType = {
-  reqUrlState: ReqUrlType;
-  setReqUrlState: React.Dispatch<React.SetStateAction<ReqUrlType>>;
-};
-
-export const ReqUrlContext = createContext<ReqUrlContextType | null>(null);

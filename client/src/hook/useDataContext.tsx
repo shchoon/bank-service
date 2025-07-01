@@ -1,18 +1,9 @@
-import { createContext } from "react";
+import { useContext } from "react";
+import { DataContext } from "../contexts/DataContext";
 
-export type BankProduct = {
-  id: number;
-  companyName: string;
-  companyCode: string;
-  interestRate: string;
-  primeInterestRate: string;
-  depositAmount: number;
-  name: string;
+export const useDataContext = () => {
+  const context = useContext(DataContext);
+  if (!context)
+    throw new Error("useDataContext must be used within DataProvider");
+  return context;
 };
-
-type DataContextType = {
-  data: BankProduct[];
-  setData: React.Dispatch<React.SetStateAction<BankProduct[]>>;
-};
-
-export const DataContext = createContext<DataContextType | null>(null);

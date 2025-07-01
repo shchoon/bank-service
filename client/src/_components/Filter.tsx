@@ -1,18 +1,17 @@
 import styled from "styled-components";
-import BankCodeModal from "./filter/BankCodeModal";
-import RateModal from "./filter/RateModal";
-import { useState } from "react";
-import { FilterContext } from "../hook/useFilterContext";
-import type { FilterStateType } from "../hook/useFilterContext";
+import BankCodeModal from "./modal/BankCodeModal";
+import RateModal from "./modal/RateModal";
+import { useCallback, useState } from "react";
 import { toggleFilter } from "../utils/filter";
 import { BankListContext } from "../hook/useBankListContext";
 import type { BankList } from "../hook/useBankListContext";
-import DepositModal from "./filter/DepositModal";
-import { ReqUrlContext } from "../hook/useReqUrlContext";
-import type { ReqUrlType } from "../hook/useReqUrlContext";
+import DepositModal from "./modal/DepositModal";
 import updateReqUrl from "../utils/updateReqUrl";
-import { DataContext } from "../hook/useDataContext";
-import UseSafeContext from "../hook/useSafeContext";
+import { useReqUrlContext } from "../hook/useReqUrlContext";
+import FilterItem from "./FilterItem";
+import { useDataContext } from "../hook/useDataContext";
+import { useFilterContext } from "../hook/useFilterContext";
+import type { FilterStateType } from "../contexts/FilterContext";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -30,26 +29,6 @@ const RefreshButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const FilterBox = styled.div`
-  position: relative;
-`;
-
-const FilterOption = styled.div`
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 6px 10px;
-  background-color: white;
-  cursor: pointer;
-  font-size: 14px;
-  white-space: nowrap;
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  &:hover {
-    background-color: #f9f9f9;
-  }
 `;
 
 const initialFilterState = {
@@ -80,19 +59,12 @@ const initialBankData: BankList[] = [
   { name: "우리은행", companyCode: "WR", checked: false },
 ];
 
-const initialReqUrl: ReqUrlType = {
-  companyCode: "",
-  interestRate: "",
-  deposit: "",
-};
-
 export default function Filter() {
-  const [filterState, setFilterState] =
-    useState<FilterStateType>(initialFilterState);
+  const { filterState, setFilterState } = useFilterContext();
   const [bankListState, setBankListState] =
     useState<BankList[]>(initialBankData);
-  const [reqUrlState, setReqUrlState] = useState(initialReqUrl);
-  const { setData } = UseSafeContext(DataContext);
+  const { setReqUrlState } = useReqUrlContext();
+  const { setData } = useDataContext();
 
   const handleClickRefresh = async () => {
     const { updatedReqUrl } = updateReqUrl(true);
@@ -106,54 +78,46 @@ export default function Filter() {
     setFilterState(initialFilterState);
   };
 
+  const handleFilterToggle = useCallback(
+    (key: keyof FilterStateType) => {
+      const updateState = toggleFilter(filterState, key);
+      setFilterState(updateState);
+    },
+    [filterState]
+  );
+
   return (
-    <FilterContext.Provider value={{ filterState, setFilterState }}>
-      <ReqUrlContext.Provider value={{ reqUrlState, setReqUrlState }}>
-        <FilterContainer>
-          <RefreshButton
-            onClick={() => {
-              handleClickRefresh();
-            }}
-          >
-            ↺
-          </RefreshButton>
-          <BankListContext.Provider value={{ bankListState, setBankListState }}>
-            <FilterBox>
-              <FilterOption
-                onClick={() => {
-                  const updateState = toggleFilter(filterState, "bank");
-                  setFilterState(updateState);
-                }}
-              >
-                {filterState.bank.text} 🔻
-              </FilterOption>
-              {filterState.bank.isActive && <BankCodeModal />}
-            </FilterBox>
-          </BankListContext.Provider>
-          <FilterBox>
-            <FilterOption
-              onClick={() => {
-                const updateState = toggleFilter(filterState, "rate");
-                setFilterState(updateState);
-              }}
-            >
-              {filterState.rate.text} 🔻
-            </FilterOption>
-            {filterState.rate.isActive && <RateModal />}
-          </FilterBox>
-          <FilterBox>
-            <FilterOption
-              onClick={() => {
-                const updateState = toggleFilter(filterState, "deposit");
-                setFilterState(updateState);
-              }}
-            >
-              {filterState.deposit.text} 🔻
-            </FilterOption>
-            {filterState.deposit.isActive && <DepositModal />}
-          </FilterBox>
-        </FilterContainer>
-      </ReqUrlContext.Provider>
-    </FilterContext.Provider>
+    <FilterContainer>
+      <RefreshButton
+        onClick={() => {
+          handleClickRefresh();
+        }}
+      >
+        ↺
+      </RefreshButton>
+      <BankListContext.Provider value={{ bankListState, setBankListState }}>
+        <FilterItem
+          label={filterState.bank.text}
+          isActive={filterState.bank.isActive}
+          onToggle={() => handleFilterToggle("bank")}
+        >
+          <BankCodeModal />
+        </FilterItem>
+      </BankListContext.Provider>
+      <FilterItem
+        label={filterState.rate.text}
+        isActive={filterState.rate.isActive}
+        onToggle={() => handleFilterToggle("rate")}
+      >
+        <RateModal />
+      </FilterItem>
+      <FilterItem
+        label={filterState.deposit.text}
+        isActive={filterState.deposit.isActive}
+        onToggle={() => handleFilterToggle("deposit")}
+      >
+        <DepositModal />
+      </FilterItem>
+    </FilterContainer>
   );
 }

@@ -3,11 +3,10 @@ import StyledButton from "../styled/StyledButton";
 import { useState } from "react";
 import { formatDepositToStr } from "../../utils/formatDepositToStr";
 import { formatDepositToNum } from "../../utils/formatDepositToNum";
-import UseSafeContext from "../../hook/useSafeContext";
-import { FilterContext } from "../../hook/useFilterContext";
 import { updateFilterText } from "../../utils/filter";
-import { ReqUrlContext } from "../../hook/useReqUrlContext";
-import { DataContext } from "../../hook/useDataContext";
+import { useDataContext } from "../../hook/useDataContext";
+import { useFilterContext } from "../../hook/useFilterContext";
+import { useReqUrlContext } from "../../hook/useReqUrlContext";
 import updateReqUrl from "../../utils/updateReqUrl";
 
 const Container = styled.form`
@@ -40,9 +39,9 @@ const InputBox = styled.input`
 `;
 
 export default function DepositModal() {
-  const { filterState, setFilterState } = UseSafeContext(FilterContext);
-  const { reqUrlState, setReqUrlState } = UseSafeContext(ReqUrlContext);
-  const { setData } = UseSafeContext(DataContext);
+  const { filterState, setFilterState } = useFilterContext();
+  const { reqUrlState, setReqUrlState } = useReqUrlContext();
+  const { setData } = useDataContext();
   const initialDeposit =
     filterState.deposit.text === "금액"
       ? ""
