@@ -11,10 +11,16 @@ const Container = styled.div`
 export default function CardContainer() {
   const { data } = useDataContext();
   return (
-    <Container>
-      {data.map((product) => {
-        return <Card key={product.id} product={product} />;
-      })}
-    </Container>
+    <>
+      {data.length > 0 ? (
+        <Container>
+          {data.map((product) => {
+            return <Card key={product.id} product={product} />;
+          })}
+        </Container>
+      ) : (
+        <div>검색 결과가 없습니다.</div>
+      )}
+    </>
   );
 }

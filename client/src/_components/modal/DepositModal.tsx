@@ -41,7 +41,7 @@ const InputBox = styled.input`
 export default function DepositModal() {
   const { filterState, setFilterState } = useFilterContext();
   const { reqUrlState, setReqUrlState } = useReqUrlContext();
-  const { setData } = useDataContext();
+  const { data, setData } = useDataContext();
   const initialDeposit =
     filterState.deposit.text === "금액"
       ? ""
@@ -49,7 +49,6 @@ export default function DepositModal() {
   const [deposit, setDeposit] = useState(initialDeposit);
 
   const filterDeposit = async () => {
-    console.log(reqUrlState);
     const query = `deposit=${Number(deposit)}`;
     const { updatedReqUrl, reqUrl } = updateReqUrl(
       reqUrlState,
@@ -70,6 +69,9 @@ export default function DepositModal() {
     setData(data);
     setFilterState(updateFilter);
   };
+
+  console.log("data", data);
+  console.log("filterState", filterState);
 
   return (
     <Container

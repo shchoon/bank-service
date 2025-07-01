@@ -19,11 +19,5 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
     fetchData();
   }, []);
 
-  return (
-    <>
-      {data.length > 0 && (
-        <DataContext value={{ data, setData }}>{children}</DataContext>
-      )}
-    </>
-  );
+  return <DataContext value={{ data, setData }}>{children}</DataContext>;
 };
