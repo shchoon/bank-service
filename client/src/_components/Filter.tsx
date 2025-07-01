@@ -83,7 +83,7 @@ export default function Filter() {
       const updateState = toggleFilter(filterState, key);
       setFilterState(updateState);
     },
-    [filterState]
+    [filterState, setFilterState]
   );
 
   return (

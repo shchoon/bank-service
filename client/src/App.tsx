@@ -1,5 +1,6 @@
 import "./App.css";
 import styled from "styled-components";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Filter from "./_components/Filter";
 import { DataProvider } from "./providers/DataProvider";
 import CardContainer from "./_components/CardContainer";
@@ -14,16 +15,27 @@ const Container = styled.main`
 
 function App() {
   return (
-    <DataProvider>
-      <FilterProvider>
-        <ReqUrlProvider>
-          <Container>
-            <Filter />
-            <CardContainer />
-          </Container>
-        </ReqUrlProvider>
-      </FilterProvider>
-    </DataProvider>
+    <BrowserRouter>
+      <DataProvider>
+        <Container>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <FilterProvider>
+                    <ReqUrlProvider>
+                      <Filter />
+                    </ReqUrlProvider>
+                  </FilterProvider>
+                  <CardContainer />
+                </>
+              }
+            />
+          </Routes>
+        </Container>
+      </DataProvider>
+    </BrowserRouter>
   );
 }
 
