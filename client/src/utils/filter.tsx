@@ -1,5 +1,5 @@
-import type { FilterStateType } from "../hook/useFilterContext";
-import type { BankList } from "../hook/useBankListContext";
+import type { FilterStateType } from "../type";
+import type { BankList } from "../type";
 
 export const toggleFilter = (
   prev: FilterStateType,

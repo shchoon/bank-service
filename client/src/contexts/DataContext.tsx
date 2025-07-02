@@ -1,14 +1,6 @@
 import { createContext } from "react";
 
-export type BankProduct = {
-  id: number;
-  companyName: string;
-  companyCode: string;
-  interestRate: string;
-  primeInterestRate: string;
-  depositAmount: number;
-  name: string;
-};
+import type { BankProduct } from "../type";
 
 type DataContextType = {
   data: BankProduct[];

@@ -1,34 +1,14 @@
-import type { BankProduct } from "../contexts/DataContext";
 import { useState } from "react";
-import styled from "styled-components";
-import DetailModal from "./modal/Detail";
+import DetailModal from "../Modal/DetailModal/DetailModal";
+
+import { CardBox, CardDetail, HighlightRate } from "./Card.style";
+
+import type { BankProduct } from "../../type";
 
 type Props = {
   product: BankProduct;
   isModal?: boolean;
 };
-
-const CardContainer = styled.div<{ showModal: boolean }>`
-  position: ${(showModal) => (showModal ? "static" : "absolute")};
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid gray;
-  border-radius: 8px;
-  align-items: flex-start;
-  cursor: pointer;
-`;
-
-const CardDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
-
-const HighlightRate = styled.strong`
-  color: red;
-  display: flex;
-`;
 
 export default function Card({ product, isModal }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,7 +20,7 @@ export default function Card({ product, isModal }: Props) {
   };
   return (
     <>
-      <CardContainer showModal={showModal} onClick={() => setIsModalOpen(true)}>
+      <CardBox showModal={showModal} onClick={() => setIsModalOpen(true)}>
         <CardDetail>
           <strong>{product.name}</strong>
           <div>
@@ -55,7 +35,7 @@ export default function Card({ product, isModal }: Props) {
           </div>
         </CardDetail>
         <HighlightRate>최고 {product.primeInterestRate}%</HighlightRate>
-      </CardContainer>
+      </CardBox>
 
       {showModal && isModalOpen && (
         <DetailModal closeModal={handleCloseModal} product={product} />

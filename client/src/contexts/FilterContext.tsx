@@ -1,12 +1,6 @@
 import { createContext } from "react";
 
-type StateType = { isActive: boolean; text: string };
-
-export type FilterStateType = {
-  bank: StateType;
-  rate: StateType;
-  deposit: StateType;
-};
+import type { FilterStateType } from "../type";
 
 export type FilterContextType = {
   filterState: FilterStateType;

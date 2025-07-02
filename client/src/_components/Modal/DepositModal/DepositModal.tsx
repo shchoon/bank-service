@@ -1,42 +1,20 @@
-import styled from "styled-components";
-import StyledButton from "../styled/StyledButton";
 import { useState } from "react";
-import { formatDepositToStr } from "../../utils/formatDepositToStr";
-import { formatDepositToNum } from "../../utils/formatDepositToNum";
-import { updateFilterText } from "../../utils/filter";
-import { useDataContext } from "../../hook/useDataContext";
-import { useFilterContext } from "../../hook/useFilterContext";
-import { useReqUrlContext } from "../../hook/useReqUrlContext";
-import updateReqUrl from "../../utils/updateReqUrl";
 
-const Container = styled.form`
-  border: 1px solid gray;
-  padding: 5px;
-  width: 300px;
-  display: flex;
-  position: absolute;
-  top: 120%;
-  flex-direction: column;
-  gap: 5px;
-  background: white;
-  border-radius: 8px;
-`;
-const TextBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
-const BtnBox = styled.div`
-  display: flex;
-  gap: 5px;
-`;
-const InputBox = styled.input`
-  border: none;
-  text-align: right;
-  &:focus {
-    outline: none;
-  }
-`;
+import { useDataContext } from "../../../hook/useDataContext";
+import { useFilterContext } from "../../../hook/useFilterContext";
+import { useReqUrlContext } from "../../../hook/useReqUrlContext";
+import { formatDepositToStr } from "../../../utils/formatDepositToStr";
+import { formatDepositToNum } from "../../../utils/formatDepositToNum";
+import { updateFilterText } from "../../../utils/filter";
+import updateReqUrl from "../../../utils/updateReqUrl";
+
+import StyledButton from "../../styled/StyledButton";
+import {
+  DepositModalContainer,
+  TextBox,
+  InputBox,
+  BtnBox,
+} from "./DepositModal.style";
 
 export default function DepositModal() {
   const { filterState, setFilterState } = useFilterContext();
@@ -74,7 +52,7 @@ export default function DepositModal() {
   console.log("filterState", filterState);
 
   return (
-    <Container
+    <DepositModalContainer
       onSubmit={(e) => {
         e.preventDefault();
         filterDeposit();
@@ -122,6 +100,6 @@ export default function DepositModal() {
           적용
         </StyledButton>
       </BtnBox>
-    </Container>
+    </DepositModalContainer>
   );
 }

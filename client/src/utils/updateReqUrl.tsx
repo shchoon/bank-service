@@ -1,4 +1,4 @@
-import type { ReqUrlType } from "../hook/useReqUrlContext";
+import type { ReqUrlType } from "../type";
 
 // 오버로드
 export default function updateReqUrl(isRefresh: true): {

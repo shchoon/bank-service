@@ -1,5 +1,6 @@
-import type { BankProduct } from "../contexts/DataContext";
 import { memo } from "react";
+
+import type { BankProduct } from "../../type";
 
 type Props = {
   product: BankProduct;

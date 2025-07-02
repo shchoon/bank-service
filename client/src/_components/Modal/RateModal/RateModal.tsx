@@ -1,28 +1,10 @@
-import styled from "styled-components";
-import { updateFilterText } from "../../utils/filter";
-import { useReqUrlContext } from "../../hook/useReqUrlContext";
-import updateReqUrl from "../../utils/updateReqUrl";
-import { useDataContext } from "../../hook/useDataContext";
-import { useFilterContext } from "../../hook/useFilterContext";
+import { useReqUrlContext } from "../../../hook/useReqUrlContext";
+import { useDataContext } from "../../../hook/useDataContext";
+import { useFilterContext } from "../../../hook/useFilterContext";
+import { updateFilterText } from "../../../utils/filter";
+import updateReqUrl from "../../../utils/updateReqUrl";
 
-const Container = styled.div`
-  background: white;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid gray;
-  border-radius: 8px;
-  position: absolute;
-  top: 120%;
-  gap: 5px;
-`;
-const SelectBox = styled.div`
-  cursor: pointer;
-
-  &:hover {
-    background: #c6b4ff;
-  }
-`;
+import { RateModalContainer, SelectBox } from "./RateModal.style";
 
 export default function RateModal() {
   const { setData } = useDataContext();
@@ -51,7 +33,7 @@ export default function RateModal() {
   };
 
   return (
-    <Container>
+    <RateModalContainer>
       <SelectBox
         onClick={() => {
           filterRate();
@@ -73,6 +55,6 @@ export default function RateModal() {
       >
         최고금리순
       </SelectBox>
-    </Container>
+    </RateModalContainer>
   );
 }

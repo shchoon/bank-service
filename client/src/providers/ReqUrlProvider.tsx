@@ -1,6 +1,7 @@
 import { useState } from "react";
-import type { ReqUrlType } from "../contexts/ReqUrlContext";
 import { ReqUrlContext } from "../contexts/ReqUrlContext";
+
+import type { ReqUrlType } from "../type";
 
 const initialReqUrl: ReqUrlType = {
   companyCode: "",

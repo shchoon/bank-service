@@ -1,10 +1,6 @@
 import { createContext } from "react";
 
-export type ReqUrlType = {
-  companyCode: string;
-  interestRate: string;
-  deposit: string;
-};
+import type { ReqUrlType } from "../type";
 
 type ReqUrlContextType = {
   reqUrlState: ReqUrlType;

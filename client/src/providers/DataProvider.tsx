@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { DataContext } from "../contexts/DataContext";
-import type { BankProduct } from "../contexts/DataContext";
+
+import type { BankProduct } from "../type";
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [data, setData] = useState<BankProduct[]>([]);

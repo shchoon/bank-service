@@ -1,12 +1,7 @@
-import styled from "styled-components";
 import Card from "./Card";
-import { useDataContext } from "../hook/useDataContext";
+import { useDataContext } from "../../hook/useDataContext";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2개 컬럼, 각각 균등 분할 */
-  gap: 16px; /* 카드들 사이 간격 */
-`;
+import { StyledCardContainer } from "./CardContainer.style";
 
 export default function CardContainer() {
   const { data } = useDataContext();
@@ -14,11 +9,11 @@ export default function CardContainer() {
   return (
     <>
       {data.length > 0 ? (
-        <Container>
+        <StyledCardContainer>
           {data.map((product) => {
             return <Card key={product.id} product={product} isModal={true} />;
           })}
-        </Container>
+        </StyledCardContainer>
       ) : (
         <div>검색 결과가 없습니다.</div>
       )}

@@ -1,35 +1,19 @@
-import styled from "styled-components";
-import BankCodeModal from "./modal/BankCodeModal";
-import RateModal from "./modal/RateModal";
 import { useCallback, useState } from "react";
-import { toggleFilter } from "../utils/filter";
-import { BankListContext } from "../hook/useBankListContext";
-import type { BankList } from "../hook/useBankListContext";
-import DepositModal from "./modal/DepositModal";
-import updateReqUrl from "../utils/updateReqUrl";
-import { useReqUrlContext } from "../hook/useReqUrlContext";
+
+import BankCodeModal from "../Modal/BankCodeModal/BankCodeModal";
+import RateModal from "../Modal/RateModal/RateModal";
+import DepositModal from "../Modal/DepositModal/DepositModal";
 import FilterItem from "./FilterItem";
-import { useDataContext } from "../hook/useDataContext";
-import { useFilterContext } from "../hook/useFilterContext";
-import type { FilterStateType } from "../contexts/FilterContext";
+import { toggleFilter } from "../../utils/filter";
+import updateReqUrl from "../../utils/updateReqUrl";
+import { useReqUrlContext } from "../../hook/useReqUrlContext";
+import { useDataContext } from "../../hook/useDataContext";
+import { useFilterContext } from "../../hook/useFilterContext";
 
-const FilterContainer = styled.div`
-  display: flex;
-  gap: 5px;
-`;
+import { FilterContainer, RefreshButton } from "./Filter.style";
 
-const RefreshButton = styled.div`
-  width: 20px;
-  height: 20px;
-  border: 1px solid #ccc;
-  border-radius: 9999px;
-  background-color: #f2f2f2;
-  cursor: pointer;
-  padding: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+import type { FilterStateType } from "../../type";
+import type { BankList } from "../../type";
 
 const initialFilterState = {
   bank: {
@@ -61,10 +45,25 @@ const initialBankData: BankList[] = [
 
 export default function Filter() {
   const { filterState, setFilterState } = useFilterContext();
-  const [bankListState, setBankListState] =
-    useState<BankList[]>(initialBankData);
   const { setReqUrlState } = useReqUrlContext();
   const { setData } = useDataContext();
+  const [bankListState, setBankListState] =
+    useState<BankList[]>(initialBankData);
+
+  const handleCheckBank = (companyCode: string) => {
+    const updateBankList = bankListState.map((bank) => {
+      if (companyCode === bank.companyCode) {
+        return {
+          ...bank,
+          checked: !bank.checked,
+        };
+      } else {
+        return bank;
+      }
+    });
+
+    setBankListState(updateBankList);
+  };
 
   const handleClickRefresh = async () => {
     const { updatedReqUrl } = updateReqUrl(true);
@@ -95,15 +94,16 @@ export default function Filter() {
       >
         ↺
       </RefreshButton>
-      <BankListContext.Provider value={{ bankListState, setBankListState }}>
-        <FilterItem
-          label={filterState.bank.text}
-          isActive={filterState.bank.isActive}
-          onToggle={() => handleFilterToggle("bank")}
-        >
-          <BankCodeModal />
-        </FilterItem>
-      </BankListContext.Provider>
+      <FilterItem
+        label={filterState.bank.text}
+        isActive={filterState.bank.isActive}
+        onToggle={() => handleFilterToggle("bank")}
+      >
+        <BankCodeModal
+          bankList={bankListState}
+          handleCheckBank={handleCheckBank}
+        />
+      </FilterItem>
       <FilterItem
         label={filterState.rate.text}
         isActive={filterState.rate.isActive}
