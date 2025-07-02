@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { BankProduct } from "../../contexts/DataContext";
 import ProductDetail from "../ProductDetail";
+import Card from "../Card";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -11,12 +12,16 @@ const ModalOverlay = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
 const ModalContent = styled.div`
-  position: relative; /* 즐겨찾기, 닫기 버튼 위치를 위한 relative */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   background: white;
   padding: 20px 40px 20px 20px;
   border-radius: 12px;
@@ -56,17 +61,65 @@ const CloseButton = styled.button`
   }
 `;
 
+const RecommendProductBox = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const LoadingMessage = styled.div`
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  color: #555;
+  background: #f8f8f8;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
+  text-align: center;
+  animation: blink 1.2s infinite;
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+`;
+
 type Props = {
   closeModal: () => void;
   product: BankProduct;
 };
 
 export default function DetailModal({ closeModal, product }: Props) {
+  const id = product.id;
   const [favorited, setFavorited] = useState(false);
+  const [recommend, setRecommend] = useState<null | BankProduct>(null);
 
   const handleSubmit = useCallback(() => {
     alert("예금 신청 완료!" + product.id);
   }, [product]);
+
+  useEffect(() => {
+    const getRecommendProduct = async () => {
+      const res = await fetch(
+        "http://localhost:3333/?companyCode=" + product.companyCode
+      );
+      const data: BankProduct[] = await res.json();
+
+      const idx = Math.floor(Math.random() * (data.length - 1));
+
+      const recommendProduct = data.filter((product) => product.id !== id)[idx];
+
+      setTimeout(() => {
+        setRecommend(recommendProduct);
+      }, 2000);
+    };
+
+    getRecommendProduct();
+  }, []);
 
   return (
     <ModalOverlay onClick={() => closeModal()}>
@@ -82,6 +135,18 @@ export default function DetailModal({ closeModal, product }: Props) {
           &times;
         </CloseButton>
         <ProductDetail product={product} submit={handleSubmit} />
+        <RecommendProductBox>
+          <div>
+            추천 상품
+            <br />
+            (동일 은행)
+          </div>
+          {recommend ? (
+            <Card product={recommend} />
+          ) : (
+            <LoadingMessage>추천 상품을 찾고 있습니다...</LoadingMessage>
+          )}
+        </RecommendProductBox>
       </ModalContent>
     </ModalOverlay>
   );

@@ -5,9 +5,11 @@ import DetailModal from "./modal/Detail";
 
 type Props = {
   product: BankProduct;
+  isModal?: boolean;
 };
 
-const CardContainer = styled.div`
+const CardContainer = styled.div<{ showModal: boolean }>`
+  position: ${(showModal) => (showModal ? "static" : "absolute")};
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -28,15 +30,17 @@ const HighlightRate = styled.strong`
   display: flex;
 `;
 
-export default function Card({ product }: Props) {
+export default function Card({ product, isModal }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = isModal ? true : false;
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
   return (
     <>
-      <CardContainer onClick={() => setIsModalOpen(true)}>
+      <CardContainer showModal={showModal} onClick={() => setIsModalOpen(true)}>
         <CardDetail>
           <strong>{product.name}</strong>
           <div>
@@ -53,7 +57,7 @@ export default function Card({ product }: Props) {
         <HighlightRate>최고 {product.primeInterestRate}%</HighlightRate>
       </CardContainer>
 
-      {isModalOpen && (
+      {showModal && isModalOpen && (
         <DetailModal closeModal={handleCloseModal} product={product} />
       )}
     </>

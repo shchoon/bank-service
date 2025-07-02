@@ -9,7 +9,7 @@ type Props = {
 const ProductDetail = memo(function ProductDetail({ product, submit }: Props) {
   console.log(1);
   return (
-    <>
+    <div>
       <h2>{product.name}</h2>
       <p>
         <strong>은행명:</strong> {product.companyName}
@@ -26,7 +26,7 @@ const ProductDetail = memo(function ProductDetail({ product, submit }: Props) {
       <button type="button" onClick={() => submit(product.id)}>
         신청하기
       </button>
-    </>
+    </div>
   );
 });
 

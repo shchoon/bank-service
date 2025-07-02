@@ -10,12 +10,13 @@ const Container = styled.div`
 
 export default function CardContainer() {
   const { data } = useDataContext();
+
   return (
     <>
       {data.length > 0 ? (
         <Container>
           {data.map((product) => {
-            return <Card key={product.id} product={product} />;
+            return <Card key={product.id} product={product} isModal={true} />;
           })}
         </Container>
       ) : (
