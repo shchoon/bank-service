@@ -15,7 +15,6 @@ const FilterItem = memo(function FilterItem({
   onToggle,
   children,
 }: Props) {
-  console.log("filterItem");
   return (
     <FilterBox>
       <FilterOption onClick={onToggle}>{label}</FilterOption>
