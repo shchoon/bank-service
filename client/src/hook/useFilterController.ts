@@ -34,6 +34,7 @@ export const useFilterController = () => {
 
   const [bankListState, setBankListState] =
     useState<BankList[]>(initialBankData);
+  const [depositText, setDepositText] = useState("금액");
 
   const handleCheckBank = (companyCode: string) => {
     const updateBankList = updateBankCheckState(companyCode, bankListState);
@@ -47,6 +48,7 @@ export const useFilterController = () => {
     const res = await fetch("http://localhost:3333/");
     const data = await res.json();
 
+    setDepositText("금액");
     setData(data);
     setReqUrlState(updatedReqUrl);
     setBankListState(initialBankData);
@@ -67,5 +69,6 @@ export const useFilterController = () => {
     handleFilterToggle,
     filterState,
     bankListState,
+    depositText,
   };
 };

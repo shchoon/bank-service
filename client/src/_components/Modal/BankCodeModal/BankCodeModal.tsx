@@ -1,9 +1,4 @@
-import { useFilterContext } from "../../../hook/useFilterContext";
-import { useDataContext } from "../../../hook/useDataContext";
-import { useReqUrlContext } from "../../../hook/useReqUrlContext";
-import { updateFilterText } from "../../../utils/filter";
-import updateReqUrl from "../../../utils/updateReqUrl";
-
+import { useFilterModalController } from "../../../hook/useFilterModalController";
 import type { BankList } from "../../../type";
 
 import StyledButton from "../../styled/StyledButton";
@@ -20,39 +15,15 @@ type Props = {
 };
 
 export default function BankCodeModal({ bankList, handleCheckBank }: Props) {
-  const { setData } = useDataContext();
-  const { filterState, setFilterState } = useFilterContext();
-  const { reqUrlState, setReqUrlState } = useReqUrlContext();
-
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const query = bankList
-      .map((data) => {
-        if (data.checked) {
-          return "companyCode=" + data.companyCode + "&";
-        } else {
-          return "";
-        }
-      })
-      .join("");
-    const { updatedReqUrl, reqUrl } = updateReqUrl(
-      reqUrlState,
-      "companyCode",
-      query
-    );
-    const res = await fetch("http://localhost:3333/?" + reqUrl);
-    const data = await res.json();
-    const updateFilter = updateFilterText(filterState, "bank", bankList);
-    setReqUrlState(updatedReqUrl);
-    setData(data);
-    setFilterState(updateFilter);
-  };
+  const { submitFilter } = useFilterModalController({
+    currentFilter: "bank",
+    bankList,
+  });
 
   return (
     <BankCodeModalContainer
       onSubmit={(e) => {
-        onSubmit(e);
+        submitFilter(e, bankList);
       }}
     >
       <CheckContainer>
