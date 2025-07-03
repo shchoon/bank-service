@@ -4,6 +4,7 @@ import { useReqUrlContext } from "./useReqUrlContext";
 
 import updateReqUrl from "../utils/updateReqUrl";
 import { updateFilterText } from "../utils/filter";
+import { formatDepositToStr } from "../utils/formatDepositToStr";
 
 import type { BankList } from "../type";
 import type { FilterStateType } from "../type";
@@ -19,6 +20,11 @@ type FilterBank = (
 ) => Promise<void>;
 
 type FilterRate = (orderBy: "basic" | "prime") => Promise<void>;
+
+type FilterDeposit = (
+  e: React.FormEvent<HTMLFormElement>,
+  deposit: string
+) => Promise<void>;
 
 export const useFilterModalController = <T extends keyof FilterStateType>({
   currentFilter,
@@ -81,16 +87,44 @@ export const useFilterModalController = <T extends keyof FilterStateType>({
     setData(data);
   };
 
-  const filterFn: Record<keyof FilterStateType, FilterBank | FilterRate> = {
+  const filterDeposit: FilterDeposit = async (e, deposit) => {
+    e.preventDefault();
+    const query = `deposit=${Number(deposit)}`;
+    const { updatedReqUrl, reqUrl } = updateReqUrl(
+      reqUrlState,
+      "deposit",
+      query
+    );
+    const res = await fetch("http://localhost:3333/?" + reqUrl);
+    const data = await res.json();
+
+    const depositText = deposit ? formatDepositToStr(deposit) : "금액";
+    const updateFilter = updateFilterText(
+      filterState,
+      "deposit",
+      undefined,
+      depositText
+    );
+    setReqUrlState(updatedReqUrl);
+    setData(data);
+    setFilterState(updateFilter);
+  };
+
+  const filterFn: Record<
+    keyof FilterStateType,
+    FilterBank | FilterRate | FilterDeposit
+  > = {
     bank: filterBankCode,
     rate: filterRate,
-    deposit: filterBankCode,
+    deposit: filterDeposit,
   };
 
   //   T가 bank로 추론되면 FIlterBank 아니면 FilterRate
   const submitFilter = filterFn[currentFilter] as T extends "bank"
     ? FilterBank
-    : FilterRate;
+    : T extends "rate"
+    ? FilterRate
+    : FilterDeposit;
 
   return { submitFilter };
 };

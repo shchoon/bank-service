@@ -1,12 +1,8 @@
 import { useState } from "react";
 
-import { useDataContext } from "../../../hook/useDataContext";
-import { useFilterContext } from "../../../hook/useFilterContext";
-import { useReqUrlContext } from "../../../hook/useReqUrlContext";
+import { useFilterModalController } from "../../../hook/useFilterModalController";
 import { formatDepositToStr } from "../../../utils/formatDepositToStr";
-import { formatDepositToNum } from "../../../utils/formatDepositToNum";
-import { updateFilterText } from "../../../utils/filter";
-import updateReqUrl from "../../../utils/updateReqUrl";
+import { limitDepositAmount } from "../../../utils/limitDepositAmount";
 
 import StyledButton from "../../styled/StyledButton";
 import {
@@ -17,45 +13,15 @@ import {
 } from "./DepositModal.style";
 
 export default function DepositModal() {
-  const { filterState, setFilterState } = useFilterContext();
-  const { reqUrlState, setReqUrlState } = useReqUrlContext();
-  const { data, setData } = useDataContext();
-  const initialDeposit =
-    filterState.deposit.text === "금액"
-      ? ""
-      : formatDepositToNum(filterState.deposit.text);
-  const [deposit, setDeposit] = useState(initialDeposit);
-
-  const filterDeposit = async () => {
-    const query = `deposit=${Number(deposit)}`;
-    const { updatedReqUrl, reqUrl } = updateReqUrl(
-      reqUrlState,
-      "deposit",
-      query
-    );
-    const res = await fetch("http://localhost:3333/?" + reqUrl);
-    const data = await res.json();
-
-    const depositText = deposit ? formatDepositToStr(deposit) : "금액";
-    const updateFilter = updateFilterText(
-      filterState,
-      "deposit",
-      undefined,
-      depositText
-    );
-    setReqUrlState(updatedReqUrl);
-    setData(data);
-    setFilterState(updateFilter);
-  };
-
-  console.log("data", data);
-  console.log("filterState", filterState);
+  const [deposit, setDeposit] = useState("");
+  const { submitFilter } = useFilterModalController({
+    currentFilter: "deposit",
+  });
 
   return (
     <DepositModalContainer
       onSubmit={(e) => {
-        e.preventDefault();
-        filterDeposit();
+        submitFilter(e, deposit);
       }}
     >
       <TextBox>
@@ -73,12 +39,8 @@ export default function DepositModal() {
               placeholder="금액을 입력해주세요"
               value={deposit}
               onChange={(e) => {
-                const currentDeposit = e.target.value;
-                if (Number(currentDeposit) > 1000000000) {
-                  setDeposit("1000000000");
-                } else {
-                  setDeposit(currentDeposit);
-                }
+                const limitDeposit = limitDepositAmount(e);
+                setDeposit(limitDeposit);
               }}
             />
             원
