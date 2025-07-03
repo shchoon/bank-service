@@ -3,9 +3,11 @@
 <h3>시연 영상</h3>
 
 <div><strong>필터링</strong></div>
+
 ![Animation](https://github.com/user-attachments/assets/0b7391a8-c4dd-45ce-9e8c-4cfd1610e638)
 
 <div><strong>상세 모달</strong></div>
+
 ![Animation](https://github.com/user-attachments/assets/8d760664-215c-4b82-901d-b11f07306822)
 
 성장 경험
