@@ -17,8 +17,8 @@ export type FilterStateType = {
 };
 
 export type ReqUrlType = {
-  companyCode: string;
-  interestRate: string;
+  bank: string;
+  rate: string;
   deposit: string;
 };
 

@@ -17,7 +17,6 @@ type Props = {
 export default function BankCodeModal({ bankList, handleCheckBank }: Props) {
   const { submitFilter } = useFilterModalController({
     currentFilter: "bank",
-    bankList,
   });
 
   return (

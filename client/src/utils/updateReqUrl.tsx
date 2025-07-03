@@ -20,7 +20,7 @@ export default function updateReqUrl(
   let updatedReqUrl: ReqUrlType;
   if (refreshOrPrev === true) {
     // 초기화
-    updatedReqUrl = { companyCode: "", interestRate: "", deposit: "" };
+    updatedReqUrl = { bank: "", rate: "", deposit: "" };
 
     return { updatedReqUrl, reqUrl };
   }

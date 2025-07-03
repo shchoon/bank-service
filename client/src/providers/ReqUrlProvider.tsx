@@ -4,8 +4,8 @@ import { ReqUrlContext } from "../contexts/ReqUrlContext";
 import type { ReqUrlType } from "../type";
 
 const initialReqUrl: ReqUrlType = {
-  companyCode: "",
-  interestRate: "",
+  bank: "",
+  rate: "",
   deposit: "",
 };
 

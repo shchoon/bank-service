@@ -1,18 +1,10 @@
-import { useDataContext } from "./useDataContext";
-import { useFilterContext } from "./useFilterContext";
-import { useReqUrlContext } from "./useReqUrlContext";
+import { useFetchAndUpdate } from "./useFetchAndUpdate";
 
-import updateReqUrl from "../utils/updateReqUrl";
-import { updateFilterText } from "../utils/filter";
+import { getCheckedBanks } from "../utils/getCheckedBanks";
 import { formatDepositToStr } from "../utils/formatDepositToStr";
 
 import type { BankList } from "../type";
 import type { FilterStateType } from "../type";
-
-// type Props = {
-//   currentFilter: keyof FilterStateType;
-//   bankList?: BankList[];
-// };
 
 type FilterBank = (
   e: React.FormEvent<HTMLFormElement>,
@@ -28,86 +20,32 @@ type FilterDeposit = (
 
 export const useFilterModalController = <T extends keyof FilterStateType>({
   currentFilter,
-  bankList,
 }: {
   currentFilter: T;
-  bankList?: BankList[];
 }) => {
-  const { setData } = useDataContext();
-  const { filterState, setFilterState } = useFilterContext();
-  const { reqUrlState, setReqUrlState } = useReqUrlContext();
+  const { fetchAndUpdate } = useFetchAndUpdate();
 
-  const filterBankCode: FilterBank = async (e) => {
+  const filterBankCode: FilterBank = async (e, bankList) => {
     e.preventDefault();
 
-    if (!bankList) {
-      return;
-    }
+    const { query, text } = getCheckedBanks(bankList);
 
-    const query = bankList
-      .map((data) => {
-        if (data.checked) {
-          return "companyCode=" + data.companyCode + "&";
-        } else {
-          return "";
-        }
-      })
-      .join("");
-    const { updatedReqUrl, reqUrl } = updateReqUrl(
-      reqUrlState,
-      "companyCode",
-      query
-    );
-    const res = await fetch("http://localhost:3333/?" + reqUrl);
-    const data = await res.json();
-    const updateFilter = updateFilterText(filterState, "bank", bankList);
-    setReqUrlState(updatedReqUrl);
-    setData(data);
-    setFilterState(updateFilter);
+    fetchAndUpdate(query, currentFilter, text);
   };
 
   const filterRate: FilterRate = async (orderBy) => {
     const query = orderBy === "prime" ? "primeInterestRate=true&" : "";
-    const { updatedReqUrl, reqUrl } = updateReqUrl(
-      reqUrlState,
-      "interestRate",
-      query
-    );
-    const res = await fetch("http://localhost:3333/?" + reqUrl);
-    const data = await res.json();
+    const text = orderBy === "prime" ? "최고금리순" : "기본금리순";
 
-    const updateFilter = updateFilterText(
-      filterState,
-      "rate",
-      undefined,
-      orderBy === "prime" ? "최고금리순" : "기본금리순"
-    );
-    setReqUrlState(updatedReqUrl);
-    setFilterState(updateFilter);
-    setData(data);
+    fetchAndUpdate(query, currentFilter, text);
   };
 
   const filterDeposit: FilterDeposit = async (e, deposit) => {
     e.preventDefault();
     const query = `deposit=${Number(deposit)}`;
-    const { updatedReqUrl, reqUrl } = updateReqUrl(
-      reqUrlState,
-      "deposit",
-      query
-    );
-    const res = await fetch("http://localhost:3333/?" + reqUrl);
-    const data = await res.json();
+    const text = deposit ? formatDepositToStr(deposit) : "금액";
 
-    const depositText = deposit ? formatDepositToStr(deposit) : "금액";
-    const updateFilter = updateFilterText(
-      filterState,
-      "deposit",
-      undefined,
-      depositText
-    );
-    setReqUrlState(updatedReqUrl);
-    setData(data);
-    setFilterState(updateFilter);
+    fetchAndUpdate(query, currentFilter, text);
   };
 
   const filterFn: Record<
