@@ -5,6 +5,7 @@ import FilterItem from "./FilterItem";
 import { useFilterController } from "../../hook/useFilterController";
 
 import { FilterContainer, RefreshButton } from "./Filter.style";
+import { useReqUrlContext } from "../../hook/useReqUrlContext";
 
 export default function Filter() {
   const {
@@ -14,6 +15,9 @@ export default function Filter() {
     filterState,
     bankListState,
   } = useFilterController();
+
+  const { reqUrlState } = useReqUrlContext();
+  console.log(reqUrlState);
 
   return (
     <FilterContainer>

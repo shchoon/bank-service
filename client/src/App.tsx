@@ -14,6 +14,12 @@ const Container = styled.main`
 `;
 
 function App() {
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/bank_product").then(async (res) => {
+  //     const data = res.json();
+  //     console.log(data);
+  //   });
+  // }, []);
   return (
     <BrowserRouter>
       <DataProvider>

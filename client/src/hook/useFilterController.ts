@@ -45,7 +45,7 @@ export const useFilterController = () => {
   const handleClickRefresh = async () => {
     const { updatedReqUrl } = updateReqUrl(true);
 
-    const res = await fetch("http://localhost:3333/");
+    const res = await fetch("http://localhost:3000/bank_product");
     const data = await res.json();
 
     setDepositText("금액");

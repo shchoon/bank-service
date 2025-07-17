@@ -16,8 +16,12 @@ export const useFetchAndUpdate = () => {
     currentFilter: keyof FilterStateType,
     text: string
   ) => {
-    const { updatedReqUrl, reqUrl } = updateReqUrl(reqUrlState, "bank", query);
-    const res = await fetch("http://localhost:3333/?" + reqUrl);
+    const { updatedReqUrl, reqUrl } = updateReqUrl(
+      reqUrlState,
+      currentFilter,
+      query
+    );
+    const res = await fetch("http://localhost:3000/bank_product?" + reqUrl);
     const data = await res.json();
     const updateFilter = updateFilterText(filterState, currentFilter, text);
     setReqUrlState(updatedReqUrl);

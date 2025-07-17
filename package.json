@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-    "start:server": "node server/index.mjs",
+    "start:server": "npm --prefix server run dev",
     "start:client": "npm --prefix client run dev"
   },
   "devDependencies": {
