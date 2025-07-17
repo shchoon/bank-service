@@ -9,7 +9,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3333/");
+        const res = await fetch("http://localhost:3000/bank_product");
         const json = await res.json();
         setData(json);
       } catch (err) {

@@ -31,7 +31,7 @@ export default function DetailModal({ closeModal, product }: Props) {
   useEffect(() => {
     const getRecommendProduct = async () => {
       const res = await fetch(
-        "http://localhost:3333/?companyCode=" + product.companyCode
+        "http://localhost:3000/bank_product?companyCode=" + product.companyCode
       );
       const data: BankProduct[] = await res.json();
 
