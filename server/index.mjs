@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 const PORT = 3000;
 
-const supabaseUrl = "https://yzvhbhutjkwlnqzlnyvu.supabase.co";
+const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -19,7 +19,6 @@ app.get("/", (req, res) => {
 
 app.get("/bank_product", async (req, res) => {
   const { companyCode, primeInterestRate, deposit } = req.query;
-  console.log(companyCode, primeInterestRate, deposit);
   try {
     let { data: bank_product, error } = await supabase
       .from("bank_product")

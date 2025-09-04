@@ -8,7 +8,6 @@ type Props = {
 };
 
 const ProductDetail = memo(function ProductDetail({ product, submit }: Props) {
-  console.log(1);
   return (
     <div>
       <h2>{product.name}</h2>
