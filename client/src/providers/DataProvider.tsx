@@ -4,12 +4,14 @@ import { DataContext } from "../contexts/DataContext";
 import type { BankProduct } from "../type";
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
-  const [data, setData] = useState<BankProduct[]>([]);
+  console.log("data provider");
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
+  const [data, setData] = useState<BankProduct[] | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/bank_product");
+        const res = await fetch(baseURL + "/bank_product");
         const json = await res.json();
         setData(json);
       } catch (err) {

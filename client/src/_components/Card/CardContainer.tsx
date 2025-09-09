@@ -1,10 +1,15 @@
 import Card from "./Card";
 import { useDataContext } from "../../hook/useDataContext";
+import LoadingUI from "../LoadingUI/Loading";
 
 import { StyledCardContainer } from "./CardContainer.style";
 
 export default function CardContainer() {
   const { data } = useDataContext();
+
+  if (!data) {
+    return <LoadingUI />;
+  }
 
   return (
     <>

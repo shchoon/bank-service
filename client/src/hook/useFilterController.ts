@@ -28,6 +28,7 @@ const toggleFilter = (
 };
 
 export const useFilterController = () => {
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
   const { filterState, setFilterState } = useFilterContext();
   const { setReqUrlState } = useReqUrlContext();
   const { setData } = useDataContext();
@@ -43,9 +44,13 @@ export const useFilterController = () => {
   };
 
   const handleClickRefresh = async () => {
+    setData(null);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000);
+    });
     const { updatedReqUrl } = updateReqUrl(true);
 
-    const res = await fetch("http://localhost:3000/bank_product");
+    const res = await fetch(baseURL + "/bank_product");
     const data = await res.json();
 
     setDepositText("금액");
