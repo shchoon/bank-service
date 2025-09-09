@@ -20,6 +20,7 @@ type Props = {
 };
 
 export default function DetailModal({ closeModal, product }: Props) {
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
   const id = product.id;
   const [favorited, setFavorited] = useState(false);
   const [recommend, setRecommend] = useState<null | BankProduct>(null);
@@ -31,7 +32,7 @@ export default function DetailModal({ closeModal, product }: Props) {
   useEffect(() => {
     const getRecommendProduct = async () => {
       const res = await fetch(
-        "http://localhost:3000/bank_product?companyCode=" + product.companyCode
+        baseURL + "/bank_product?companyCode=" + product.companyCode
       );
       const data: BankProduct[] = await res.json();
 

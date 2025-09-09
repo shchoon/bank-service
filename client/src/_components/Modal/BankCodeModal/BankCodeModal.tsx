@@ -1,3 +1,4 @@
+import { useFilterContext } from "../../../hook/useFilterContext";
 import { useFilterModalController } from "../../../hook/useFilterModalController";
 import type { BankList } from "../../../type";
 
@@ -15,9 +16,20 @@ type Props = {
 };
 
 export default function BankCodeModal({ bankList, handleCheckBank }: Props) {
+  const { setFilterState } = useFilterContext();
   const { submitFilter } = useFilterModalController({
     currentFilter: "bank",
   });
+
+  const cancelModal = () => {
+    setFilterState((prev) => ({
+      ...prev,
+      bank: {
+        ...prev.bank,
+        isActive: false,
+      },
+    }));
+  };
 
   return (
     <BankCodeModalContainer
@@ -40,7 +52,9 @@ export default function BankCodeModal({ bankList, handleCheckBank }: Props) {
         })}
       </CheckContainer>
       <ButtonBox>
-        <StyledButton type="button">취소</StyledButton>
+        <StyledButton type="button" onClick={cancelModal}>
+          취소
+        </StyledButton>
         <StyledButton bgColor="#bfb1e9" textColor="white">
           적용
         </StyledButton>

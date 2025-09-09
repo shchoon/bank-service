@@ -7,6 +7,7 @@ import { updateFilterText } from "../utils/updateFilterText";
 import type { FilterStateType } from "../type";
 
 export const useFetchAndUpdate = () => {
+  const baseURL = import.meta.env.VITE_API_BASE_URL;
   const { setData } = useDataContext();
   const { filterState, setFilterState } = useFilterContext();
   const { reqUrlState, setReqUrlState } = useReqUrlContext();
@@ -21,7 +22,11 @@ export const useFetchAndUpdate = () => {
       currentFilter,
       query
     );
-    const res = await fetch("http://localhost:3000/bank_product?" + reqUrl);
+    setData(null);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000);
+    });
+    const res = await fetch(baseURL + "/bank_product?" + reqUrl);
     const data = await res.json();
     const updateFilter = updateFilterText(filterState, currentFilter, text);
     setReqUrlState(updatedReqUrl);
